@@ -24,5 +24,10 @@ namespace ArtStanisProject.Domain.Services
         {
             return _clientRepository.Find(clientId);
         }
+
+        public Client CreateClient(Client client)
+        {
+            return _clientRepository.Create(client);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ArtStanisProject.Core.Models;
+using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.Domain.IRepositories;
 
 namespace ArtStanisProject.DataAccess.Repositories
@@ -49,6 +50,30 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 throw new ArgumentException("Client ID not found");
             }
+        }
+
+        public Client Create(Client client)
+        {
+            if (client == null) throw new ArgumentException("Client cannot be null");
+            var clientEntity = new ClientEntity
+            {
+                Name = client.Name,
+                Address = client.Address,
+                Country = client.Country,
+                ApplyDate = client.ApplyDate,
+                Priority = client.Priority,
+                Notes = client.Notes
+            };
+            var createdEntity = _ctx.Clients.Add(clientEntity).Entity;
+            _ctx.SaveChanges();
+            return new Client {
+                Id = createdEntity.Id,
+                Name = createdEntity.Name,
+                Address = createdEntity.Address,
+                Country = createdEntity.Country,
+                ApplyDate = createdEntity.ApplyDate,
+                Priority = createdEntity.Priority,
+                Notes = createdEntity.Notes };
         }
     }
 }
