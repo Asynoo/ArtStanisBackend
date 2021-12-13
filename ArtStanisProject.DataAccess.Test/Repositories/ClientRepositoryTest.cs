@@ -98,6 +98,30 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             var ex = Assert.Throws<ArgumentException>(() => _repo.Find(0));
             Assert.Equal("Client ID not found",ex.Message);
         }
+
+        [Fact]
+        public void ClientRepository_CreateClientEntityNoParam_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => _repo.Create(null));
+        }
+        
+        [Fact]
+        public void ClientRepository_CreateClientEntityNoParam_ThrowsArgumentExceptionWithMessage()
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _repo.Create(null));
+            Assert.Equal("Client cannot be null",ex.Message);
+        }
+
+        [Fact]
+        public void ClientRepository_CreateClientEntity_ReturnsClientWIthCorrectId()
+        {
+            var client = new Client
+            {
+                Name = "Client4", Address = "test4",
+                Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+            };
+            Assert.Equal(4,_repo.Create(client).Id);
+        }
     }
 
     public class Comparer : IEqualityComparer<Client>

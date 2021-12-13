@@ -7,6 +7,8 @@ namespace ArtStanisProject.Core.IServices
     {
         List<Client> GetAllClients();
         Client GetClient(int clientId);
-        
+        Client CreateClient(Client client);
+
+
     }
 }

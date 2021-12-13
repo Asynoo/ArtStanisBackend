@@ -2,7 +2,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using ArtStanisProject.Core.IServices;
+using ArtStanisProject.Core.Models;
 using ArtStanisProject_Backend.Controllers;
+using ArtStanisProject_Backend.Dtos.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -130,6 +132,28 @@ namespace ArtStanisProject.WebApi.Test
             controller.Get(1);
             service.Verify(clientService => clientService.GetClient(1),Times.Once);
         }
+        #endregion
+
+        #region CreateMethod
+
+        [Fact]
+        public void ClientController_HasCreateMethod()
+        {
+            var method = typeof(ClientController).
+                GetMethods().FirstOrDefault(m => "Create".Equals(m.Name));
+            Assert.NotNull(method);
+        }
+        
+        [Fact]
+        public void Create_HasPostHttpAttribute()
+        {
+            var method = typeof(ClientController).
+                GetMethods().FirstOrDefault(m => "Create".Equals(m.Name));
+            var attr = method.GetCustomAttributes()
+                .FirstOrDefault(a => a.GetType().Name.Equals("HttpPostAttribute"));
+            Assert.NotNull(attr);
+        }
+        
         #endregion
         
     }

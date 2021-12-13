@@ -55,5 +55,13 @@ namespace ArtStanisProject.Domain.Test.Services
             _service.GetClient(1);
             _mock.Verify(repository => repository.Find(1), Times.Once);
         }
+        
+        [Fact]
+        public void GetClient_CallsCreateExactlyOnce()
+        {
+            var client = new Client();
+            _service.CreateClient(client);
+            _mock.Verify(repository => repository.Create(client), Times.Once);
+        }
     }
 }

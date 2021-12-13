@@ -23,18 +23,26 @@ namespace ArtStanisProject_Backend.Controllers
         [HttpGet]
         public ActionResult<ClientsAllDto> GetAll()
         {
-            var list = _service.GetAllClients()
-                .Select(c => new ClientDto() {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Address = c.Address,
-                    Country = c.Country,
-                    ApplyDate = c.ApplyDate,
-                    Priority = c.Priority,
-                    Notes = c.Notes
-                })
-                .ToList();
-            return Ok(list);
+            try
+            {
+                var list = _service.GetAllClients()
+                    .Select(c => new ClientDto {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Address = c.Address,
+                        Country = c.Country,
+                        ApplyDate = c.ApplyDate,
+                        Priority = c.Priority,
+                        Notes = c.Notes
+                    })
+                    .ToList();
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Clients not found");
+            }
+            
         }
         
         [HttpGet("{id:int}")]
@@ -43,7 +51,7 @@ namespace ArtStanisProject_Backend.Controllers
             try
             {
                 var client = _service.GetClient(id);
-                return Ok(new ClientDto()
+                return Ok(new ClientDto
                 {
                     Id = client.Id,
                     Name = client.Name,
@@ -58,6 +66,31 @@ namespace ArtStanisProject_Backend.Controllers
             {
                 return BadRequest("Client id not found");
             }
+        }
+
+        [HttpPost]
+        public ActionResult<ClientDto> Create(ClientDto clientDto)
+        {
+            var client = _service.CreateClient(new Client
+            {
+                Id = clientDto.Id,
+                Name = clientDto.Name,
+                Address = clientDto.Address,
+                Country = clientDto.Country,
+                ApplyDate = clientDto.ApplyDate,
+                Priority = clientDto.Priority,
+                Notes = clientDto.Notes
+            });
+            return StatusCode(201,new ClientDto
+            {
+                Id = client.Id,
+                Name = client.Name,
+                Address = client.Address,
+                Country = client.Country,
+                ApplyDate = client.ApplyDate,
+                Priority = client.Priority,
+                Notes = client.Notes
+            });
         }
     }
 }
