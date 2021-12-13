@@ -8,8 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="IRepositories" />
-      <Folder Include="Services" />
+      <ProjectReference Include="..\ArtStanisProject.Core\ArtStanisProject.Core.csproj" />
     </ItemGroup>
 
 </Project>
