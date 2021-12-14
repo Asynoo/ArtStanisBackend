@@ -10,7 +10,7 @@ namespace ArtStanisProject.DataAccess.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private MainDbContext _ctx;
+        private readonly MainDbContext _ctx;
 
         public ClientRepository(MainDbContext ctx)
         {
@@ -36,7 +36,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             try
             {
                 var client = _ctx.Clients.Single(ce => ce.Id == clientId);
-                return client != null ? new Client {
+                return new Client {
                     Id = client.Id,
                     Name = client.Name,
                     Address = client.Address,
@@ -44,7 +44,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                     Country = client.Country,
                     Notes = client.Notes,
                     Priority = client.Priority
-                } : null;
+                };
             }
             catch (Exception e)
             {
@@ -97,6 +97,34 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 throw new ArgumentException("Client ID not found");
             }
+        }
+
+        public Client Update(Client client)
+        {
+            if (client == null) throw new ArgumentException("Client cannot be null");
+            if (!_ctx.Clients.Any(ce => ce.Id == client.Id))
+                throw new ArgumentException("Client with the specified ID does not exist");
+            var clientEntity = new ClientEntity
+            {
+                Id = client.Id,
+                Name = client.Name,
+                Address = client.Address,
+                Country = client.Country,
+                ApplyDate = client.ApplyDate,
+                Priority = client.Priority,
+                Notes = client.Notes
+            };
+            _ctx.Clients.Update(clientEntity);
+            var updatedEntity = _ctx.Clients.Update(clientEntity).Entity;
+            _ctx.SaveChanges();
+            return new Client {
+                Id = updatedEntity.Id,
+                Name = updatedEntity.Name,
+                Address = updatedEntity.Address,
+                Country = updatedEntity.Country,
+                ApplyDate = updatedEntity.ApplyDate,
+                Priority = updatedEntity.Priority,
+                Notes = updatedEntity.Notes };
         }
     }
 }

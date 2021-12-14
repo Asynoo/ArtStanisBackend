@@ -9,7 +9,7 @@ namespace ArtStanisProject.Core.IServices
         Client GetClient(int clientId);
         Client CreateClient(Client client);
         Client DeleteClient(int clientId);
-
+        Client UpdateClient(Client client);
 
     }
 }

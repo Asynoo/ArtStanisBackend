@@ -70,5 +70,13 @@ namespace ArtStanisProject.Domain.Test.Services
             _service.DeleteClient(1);
             _mock.Verify(repository => repository.Delete(1), Times.Once);
         }
+        
+        [Fact]
+        public void DeleteClient_CallsUpdateExactlyOnce()
+        {
+            var client = new Client();
+            _service.UpdateClient(client);
+            _mock.Verify(repository => repository.Update(client), Times.Once);
+        }
     }
 }

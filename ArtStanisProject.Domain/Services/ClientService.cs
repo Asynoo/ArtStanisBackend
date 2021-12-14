@@ -34,5 +34,10 @@ namespace ArtStanisProject.Domain.Services
         {
             return _clientRepository.Delete(clientId);
         }
+
+        public Client UpdateClient(Client client)
+        {
+            return _clientRepository.Update(client);
+        }
     }
 }

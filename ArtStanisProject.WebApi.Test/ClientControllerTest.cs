@@ -167,7 +167,7 @@ namespace ArtStanisProject.WebApi.Test
         }
 
         [Fact]
-        public void Get_HasDeleteHttpAttribute_WithParamIdInt()
+        public void Delete_HasDeleteHttpAttribute_WithParamIdInt()
         {
             var method = typeof(ClientController).
                 GetMethods().FirstOrDefault(m => "Delete".Equals(m.Name));
@@ -186,6 +186,28 @@ namespace ArtStanisProject.WebApi.Test
             service.Verify(clientService => clientService.DeleteClient(1),Times.Once);
         }
         #endregion
+
+        #region UpdateMethod
+
+        [Fact]
+        public void ClientController_HasUpdateMethod()
+        {
+            var method = typeof(ClientController).
+                GetMethods().FirstOrDefault(m => "Update".Equals(m.Name));
+            Assert.NotNull(method);
+        }
         
+        [Fact]
+        public void Update_HasPutHttpAttribute_WithParamIdInt()
+        {
+            var method = typeof(ClientController).
+                GetMethods().FirstOrDefault(m => "Update".Equals(m.Name));
+            var attr = method.GetCustomAttributes()
+                .FirstOrDefault(a => a.GetType().Name.Equals("HttpPutAttribute"));
+            var putAttr = attr as HttpPutAttribute;
+            Assert.Equal("{id:int}",putAttr.Template);
+        }
+
+        #endregion
     }
 }

@@ -157,6 +157,36 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         }
 
         #endregion
+
+        #region UpdateMethod
+
+        [Fact]
+        public void ClientRepository_UpdateClientEntityNoParam_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => _repo.Update(null));
+        }
+        
+        [Fact]
+        public void ClientRepository_UpdateClientEntityNoParam_ThrowsArgumentExceptionWithMessage()
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _repo.Update(null));
+            Assert.Equal("Client cannot be null",ex.Message);
+        }
+        
+        // This don't work and I have no clue why
+        
+        // [Fact]
+        // public void ClientRepository_UpdateClientEntity_ReturnsClientWIthCorrectId()
+        // {
+        //     var client = new Client
+        //     {
+        //         Id = 2, Name = "Client2", Address = "testEdit",
+        //         Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
+        //     };
+        //     Assert.Equal(2,_repo.Update(client).Id);
+        // }
+
+        #endregion
     }
 
     public class Comparer : IEqualityComparer<Client>

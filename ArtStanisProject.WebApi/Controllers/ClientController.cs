@@ -115,5 +115,32 @@ namespace ArtStanisProject_Backend.Controllers
                 return BadRequest("Client id not found");
             }
         }
+        
+        [HttpPut("{id:int}")]
+        public ActionResult<ClientDto> Update(int id,ClientDto clientDto)
+        {
+            if (id != clientDto.Id)
+                return BadRequest("IDs don't match");
+            var client = _service.UpdateClient(new Client
+            {
+                Id = clientDto.Id,
+                Name = clientDto.Name,
+                Address = clientDto.Address,
+                Country = clientDto.Country,
+                ApplyDate = clientDto.ApplyDate,
+                Priority = clientDto.Priority,
+                Notes = clientDto.Notes
+            });
+            return StatusCode(200,new ClientDto
+            {
+                Id = client.Id,
+                Name = client.Name,
+                Address = client.Address,
+                Country = client.Country,
+                ApplyDate = client.ApplyDate,
+                Priority = client.Priority,
+                Notes = client.Notes
+            });
+        }
     }
 }
