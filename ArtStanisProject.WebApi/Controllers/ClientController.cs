@@ -119,28 +119,35 @@ namespace ArtStanisProject_Backend.Controllers
         [HttpPut("{id:int}")]
         public ActionResult<ClientDto> Update(int id,ClientDto clientDto)
         {
-            if (id != clientDto.Id)
-                return BadRequest("IDs don't match");
-            var client = _service.UpdateClient(new Client
+            try
             {
-                Id = clientDto.Id,
-                Name = clientDto.Name,
-                Address = clientDto.Address,
-                Country = clientDto.Country,
-                ApplyDate = clientDto.ApplyDate,
-                Priority = clientDto.Priority,
-                Notes = clientDto.Notes
-            });
-            return StatusCode(200,new ClientDto
+                if (id != clientDto.Id)
+                    return BadRequest("IDs don't match");
+                var client = _service.UpdateClient(new Client
+                {
+                    Id = clientDto.Id,
+                    Name = clientDto.Name,
+                    Address = clientDto.Address,
+                    Country = clientDto.Country,
+                    ApplyDate = clientDto.ApplyDate,
+                    Priority = clientDto.Priority,
+                    Notes = clientDto.Notes
+                });
+                return StatusCode(200,new ClientDto
+                {
+                    Id = client.Id,
+                    Name = client.Name,
+                    Address = client.Address,
+                    Country = client.Country,
+                    ApplyDate = client.ApplyDate,
+                    Priority = client.Priority,
+                    Notes = client.Notes
+                });
+            }
+            catch (Exception e)
             {
-                Id = client.Id,
-                Name = client.Name,
-                Address = client.Address,
-                Country = client.Country,
-                ApplyDate = client.ApplyDate,
-                Priority = client.Priority,
-                Notes = client.Notes
-            });
+                return BadRequest("Client with specified ID does not exist");
+            }
         }
     }
 }
