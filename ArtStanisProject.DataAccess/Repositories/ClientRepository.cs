@@ -75,5 +75,28 @@ namespace ArtStanisProject.DataAccess.Repositories
                 Priority = createdEntity.Priority,
                 Notes = createdEntity.Notes };
         }
+
+        public Client Delete(int clientId)
+        {
+            try
+            {
+                var clientEntity = _ctx.Clients.Single(ce => ce.Id == clientId);
+                var deletedEntity = _ctx.Clients.Remove(clientEntity).Entity;
+                _ctx.SaveChanges();
+                return new Client {
+                    Id = deletedEntity.Id,
+                    Name = deletedEntity.Name,
+                    Address = deletedEntity.Address,
+                    Country = deletedEntity.Country,
+                    ApplyDate = deletedEntity.ApplyDate,
+                    Priority = deletedEntity.Priority,
+                    Notes = deletedEntity.Notes 
+                };
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("Client ID not found");
+            }
+        }
     }
 }

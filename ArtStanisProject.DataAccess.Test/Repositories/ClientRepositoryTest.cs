@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +7,7 @@ using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.DataAccess.Repositories;
 using ArtStanisProject.Domain.IRepositories;
 using EntityFrameworkCore.Testing.Moq;
+using Moq;
 using Xunit;
 
 namespace ArtStanisProject.DataAccess.Test.Repositories
@@ -21,7 +21,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             MainDbContext mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
             _repo = new ClientRepository(mockedDbContext);
-            List<ClientEntity> entities = new List<ClientEntity>
+            List<ClientEntity> entities = new()
             {
                 new ClientEntity
                 {
@@ -53,6 +53,8 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             }).ToList();
         }
 
+        #region Setup
+
         [Fact]
         public void ClientRepository_IsIClientRepository()
         {
@@ -71,6 +73,10 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             var ex = Assert.Throws<InvalidDataException>(() => new ClientRepository(null));
             Assert.Equal("ClientRepository's DbContext cannot be null",ex.Message);
         }
+
+        #endregion
+
+        #region GetMethod
 
         [Fact]
         public void ClientRepository_GetAllClientEntities_AsAList()
@@ -99,6 +105,10 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             Assert.Equal("Client ID not found",ex.Message);
         }
 
+        #endregion
+
+        #region CreateMethod
+
         [Fact]
         public void ClientRepository_CreateClientEntityNoParam_ThrowsArgumentException()
         {
@@ -122,6 +132,31 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             };
             Assert.Equal(4,_repo.Create(client).Id);
         }
+
+        #endregion
+
+        #region DeleteMethod
+        
+        [Fact]
+        public void ClientRepository_DeleteClientEntityWithIncorrectId_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => _repo.Delete(0));
+        }
+        
+        [Fact]
+        public void ClientRepository_DeleteClientEntityWithIncorrectId_ThrowsArgumentExceptionWithMessage()
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _repo.Delete(0));
+            Assert.Equal("Client ID not found",ex.Message);
+        }
+
+        [Fact]
+        public void ClientRepository_DeleteClientEntity_ReturnsClientWIthCorrectId()
+        {
+            Assert.Equal(2,_repo.Delete(2).Id);
+        }
+
+        #endregion
     }
 
     public class Comparer : IEqualityComparer<Client>

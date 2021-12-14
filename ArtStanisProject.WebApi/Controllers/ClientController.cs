@@ -92,5 +92,28 @@ namespace ArtStanisProject_Backend.Controllers
                 Notes = client.Notes
             });
         }
+        
+        [HttpDelete("{id:int}")]
+        public ActionResult<ClientDto> Delete(int id)
+        {
+            try
+            {
+                var client = _service.DeleteClient(id);
+                return StatusCode(200,new ClientDto
+                {
+                    Id = client.Id,
+                    Name = client.Name,
+                    Address = client.Address,
+                    Country = client.Country,
+                    ApplyDate = client.ApplyDate,
+                    Priority = client.Priority,
+                    Notes = client.Notes
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Client id not found");
+            }
+        }
     }
 }

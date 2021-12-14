@@ -155,6 +155,37 @@ namespace ArtStanisProject.WebApi.Test
         }
         
         #endregion
+
+        #region DeleteMethod
+
+        [Fact]
+        public void ClientController_HasDeleteMethod()
+        {
+            var method = typeof(ClientController).
+                GetMethods().FirstOrDefault(m => "Delete".Equals(m.Name));
+            Assert.NotNull(method);
+        }
+
+        [Fact]
+        public void Get_HasDeleteHttpAttribute_WithParamIdInt()
+        {
+            var method = typeof(ClientController).
+                GetMethods().FirstOrDefault(m => "Delete".Equals(m.Name));
+            var attr = method.GetCustomAttributes()
+                .FirstOrDefault(a => a.GetType().Name.Equals("HttpDeleteAttribute"));
+            var delAttr = attr as HttpDeleteAttribute;
+            Assert.Equal("{id:int}",delAttr.Template);
+        }
+        
+        [Fact]
+        public void Delete_CallsServicesDeleteClient_Once()
+        {
+            var service = new Mock<IClientService>();
+            var controller = new ClientController(service.Object);
+            controller.Delete(1);
+            service.Verify(clientService => clientService.DeleteClient(1),Times.Once);
+        }
+        #endregion
         
     }
 }

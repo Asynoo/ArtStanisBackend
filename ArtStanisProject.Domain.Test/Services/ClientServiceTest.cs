@@ -57,11 +57,18 @@ namespace ArtStanisProject.Domain.Test.Services
         }
         
         [Fact]
-        public void GetClient_CallsCreateExactlyOnce()
+        public void CreateClient_CallsCreateExactlyOnce()
         {
             var client = new Client();
             _service.CreateClient(client);
             _mock.Verify(repository => repository.Create(client), Times.Once);
+        }
+        
+        [Fact]
+        public void DeleteClient_CallsDeleteExactlyOnce()
+        {
+            _service.DeleteClient(1);
+            _mock.Verify(repository => repository.Delete(1), Times.Once);
         }
     }
 }
