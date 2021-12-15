@@ -113,6 +113,15 @@ namespace ArtStanisProject_Backend
             {
                 builder.UseSqlite("Data source =auth.db");
             });
+            
+            services.AddCors(opt => opt
+                .AddPolicy("dev-policy", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

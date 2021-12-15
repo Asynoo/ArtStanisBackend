@@ -1,9 +1,11 @@
 ﻿using ArtStanisProject.Security.Models;
 
-namespace ArtStanisProject.Security.IRepositories;
-
-public interface IAuthUserRepository
+namespace ArtStanisProject.Security.IRepositories
 {
-    //AuthUser FindByUsernameAndPassword(string username, string password);
-    AuthUser FindUser(string username);
+
+    public interface IAuthUserRepository
+    {
+        //AuthUser FindByUsernameAndPassword(string username, string password);
+        AuthUser FindUser(string username);
+    }
 }

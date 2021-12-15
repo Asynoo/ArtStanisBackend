@@ -1,29 +1,32 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using ArtStanisProject.Security.IRepositories;
 using ArtStanisProject.Security.Models;
 
-namespace ArtStanisProject.Security.Repositories;
-
-public class AuthUserRepository : IAuthUserRepository
+namespace ArtStanisProject.Security.Repositories
 {
-    private readonly AuthDbContext _ctx;
 
-    public AuthUserRepository(AuthDbContext ctx)
+    public class AuthUserRepository : IAuthUserRepository
     {
-        _ctx = ctx;
-    }
+        private readonly AuthDbContext _ctx;
 
-    public AuthUser FindUser(string username)
-    {
-        var entity = _ctx.LoginUsers
-            .FirstOrDefault(user => username.Equals(user.Username));
-        if (entity == null) return null;
-        return new AuthUser
+        public AuthUserRepository(AuthDbContext ctx)
         {
-            Id = entity.Id,
-            Username = entity.Username,
-            HashedPassword = entity.HashedPassword,
-            Salt = Encoding.ASCII.GetBytes(entity.Salt)
-        };
+            _ctx = ctx;
+        }
+
+        public AuthUser FindUser(string username)
+        {
+            var entity = _ctx.LoginUsers
+                .FirstOrDefault(user => username.Equals(user.Username));
+            if (entity == null) return null;
+            return new AuthUser
+            {
+                Id = entity.Id,
+                Username = entity.Username,
+                HashedPassword = entity.HashedPassword,
+                Salt = Encoding.ASCII.GetBytes(entity.Salt)
+            };
+        }
     }
 }
