@@ -137,6 +137,8 @@ namespace ArtStanisProject_Backend
             app.UseAuthentication();
 
             app.UseRouting();
+
+            app.UseAuthorization();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

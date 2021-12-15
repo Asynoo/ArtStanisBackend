@@ -21,6 +21,7 @@ namespace ArtStanisProject_Backend.Controllers
             _service = service ?? throw new InvalidDataException("ClientService cannot be null");
         }
         
+        [Authorize]
         [HttpGet]
         public ActionResult<ClientsAllDto> GetAll()
         {
@@ -46,6 +47,7 @@ namespace ArtStanisProject_Backend.Controllers
             
         }
         
+        [Authorize]
         [HttpGet("{id:int}")]
         public ActionResult<List<Client>> Get(int id)
         {
@@ -69,6 +71,7 @@ namespace ArtStanisProject_Backend.Controllers
             }
         }
         
+        [Authorize]
         [HttpPost]
         public ActionResult<ClientDto> Create(ClientDto clientDto)
         {
@@ -94,6 +97,7 @@ namespace ArtStanisProject_Backend.Controllers
             });
         }
         
+        [Authorize]
         [HttpDelete("{id:int}")]
         public ActionResult<ClientDto> Delete(int id)
         {
@@ -116,7 +120,8 @@ namespace ArtStanisProject_Backend.Controllers
                 return BadRequest("Client id not found");
             }
         }
-        
+
+        [Authorize]
         [HttpPut("{id:int}")]
         public ActionResult<ClientDto> Update(int id,ClientDto clientDto)
         {
