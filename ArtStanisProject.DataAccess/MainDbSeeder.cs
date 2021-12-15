@@ -4,11 +4,11 @@ using ArtStanisProject.DataAccess.Entities;
 
 namespace ArtStanisProject.DataAccess
 {
-    public class DbSeeder
+    public class MainDbSeeder : IMainDbSeeder
     {
         private readonly MainDbContext _ctx;
 
-        public DbSeeder(MainDbContext ctx)
+        public MainDbSeeder(MainDbContext ctx)
         {
             _ctx = ctx;
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using ArtStanisProject.Core.IServices;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject_Backend.Dtos.Clients;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtStanisProject_Backend.Controllers
@@ -19,7 +20,7 @@ namespace ArtStanisProject_Backend.Controllers
         {
             _service = service ?? throw new InvalidDataException("ClientService cannot be null");
         }
-
+        
         [HttpGet]
         public ActionResult<ClientsAllDto> GetAll()
         {
@@ -67,7 +68,7 @@ namespace ArtStanisProject_Backend.Controllers
                 return BadRequest("Client id not found");
             }
         }
-
+        
         [HttpPost]
         public ActionResult<ClientDto> Create(ClientDto clientDto)
         {
