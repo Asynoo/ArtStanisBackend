@@ -29,7 +29,11 @@ namespace ArtStanisProject.DataAccess.Repositories
                     HouseNumber = ce.Address.HouseNumber,
                     PostalCode = ce.Address.PostalCode,
                     City = ce.Address.City,
-                    Country = ce.Address.Country
+                    Country = new Country
+                    {
+                        Id = ce.Address.Country.Id,
+                        CountryName = ce.Address.Country.CountryName
+                    }
                 }
             }).ToList();
         }
@@ -52,7 +56,11 @@ namespace ArtStanisProject.DataAccess.Repositories
                         HouseNumber = client.Address.HouseNumber,
                         PostalCode = client.Address.PostalCode,
                         City = client.Address.City,
-                        Country = client.Address.Country
+                        Country = new Country
+                        {
+                            Id = client.Address.Country.Id,
+                            CountryName = client.Address.Country.CountryName
+                        }
                     }
                 };
             }
@@ -65,6 +73,9 @@ namespace ArtStanisProject.DataAccess.Repositories
         public Client Create(Client client)
         {
             if (client == null) throw new ArgumentException("Client cannot be null");
+            var country = _ctx.Countries.FirstOrDefault(c => c.Id == client.Address.Country.Id);
+            if (country == null)
+                throw new ArgumentException("Country not found");
             
             var clientEntity = new ClientEntity
             {
@@ -79,7 +90,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                 entity.HouseNumber == client.Address.HouseNumber &&
                 entity.PostalCode == client.Address.PostalCode &&
                 entity.City == client.Address.City &&
-                entity.Country == client.Address.Country
+                entity.Country.Id == client.Address.Country.Id
             );
             if (address != null)
             {
@@ -94,7 +105,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                     HouseNumber = client.Address.HouseNumber,
                     PostalCode = client.Address.PostalCode,
                     City = client.Address.City,
-                    Country = client.Address.Country
+                    Country = country
                 };
             }
             
@@ -113,8 +124,12 @@ namespace ArtStanisProject.DataAccess.Repositories
                     HouseNumber = createdEntity.Address.HouseNumber,
                     PostalCode = createdEntity.Address.PostalCode,
                     City = createdEntity.Address.City,
-                    Country = createdEntity.Address.Country
-                } };
+                    Country = new Country
+                    {
+                        Id = clientEntity.Address.Country.Id,
+                        CountryName = clientEntity.Address.Country.CountryName
+                    }
+                }};
         }
 
         public int Delete(int clientId)
@@ -138,6 +153,9 @@ namespace ArtStanisProject.DataAccess.Repositories
             var editedClient = _ctx.Clients.FirstOrDefault(ce => ce.Id == client.Id);
             if (editedClient == null)
                 throw new ArgumentException("Client with the specified ID does not exist");
+            var country = _ctx.Countries.FirstOrDefault(c => c.Id == client.Address.Country.Id);
+            if (country == null)
+                throw new ArgumentException("Country not found");
 
             editedClient.Name = client.Name;
             editedClient.Notes = client.Notes;
@@ -149,7 +167,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                 entity.HouseNumber == client.Address.HouseNumber &&
                 entity.PostalCode == client.Address.PostalCode &&
                 entity.City == client.Address.City &&
-                entity.Country == client.Address.Country
+                entity.Country.Id == client.Address.Country.Id
             );
             if (address != null)
             {
@@ -163,7 +181,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                     HouseNumber = client.Address.HouseNumber,
                     PostalCode = client.Address.PostalCode,
                     City = client.Address.City,
-                    Country = client.Address.Country
+                    Country = country
                 };
             }
 
@@ -182,7 +200,11 @@ namespace ArtStanisProject.DataAccess.Repositories
                     HouseNumber = updatedEntity.Address.HouseNumber,
                     PostalCode = updatedEntity.Address.PostalCode,
                     City = updatedEntity.Address.City,
-                    Country = updatedEntity.Address.Country
+                    Country = new Country
+                    {
+                        Id = updatedEntity.Address.Country.Id,
+                        CountryName = updatedEntity.Address.Country.CountryName
+                    }
                 }
             };
         }

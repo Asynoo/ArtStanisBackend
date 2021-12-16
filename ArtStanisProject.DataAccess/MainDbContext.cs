@@ -14,6 +14,7 @@ namespace ArtStanisProject.DataAccess
 
         public virtual Microsoft.EntityFrameworkCore.DbSet<ClientEntity> Clients { get; set; }
         public virtual Microsoft.EntityFrameworkCore.DbSet<AddressEntity> Addresses { get; set; }
+        public virtual Microsoft.EntityFrameworkCore.DbSet<CountryEntity> Countries { get; set; }
         
     }
 }

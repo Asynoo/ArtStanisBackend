@@ -7,5 +7,5 @@ public class Address
     public int HouseNumber { get; set; }
     public int PostalCode { get; set; }
     public string City { get; set; }
-    public int Country { get; set; }
+    public Country Country { get; set; }
 }

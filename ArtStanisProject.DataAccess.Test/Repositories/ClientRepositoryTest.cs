@@ -32,7 +32,11 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                         HouseNumber = 11,
                         PostalCode = 6700,
                         City = "Esbjerg",
-                        Country = 1
+                        Country = new CountryEntity
+                        {
+                            Id = 2,
+                            CountryName = "Denmark"
+                        }
                     }
                 },
                 new ClientEntity
@@ -45,7 +49,11 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                         HouseNumber = 61,
                         PostalCode = 6700,
                         City = "Esbjerg",
-                        Country = 1
+                        Country = new CountryEntity
+                        {
+                            Id = 3,
+                            CountryName = "USA"
+                        }
                     }
                 },
                 new ClientEntity
@@ -58,7 +66,11 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                         HouseNumber = 3,
                         PostalCode = 6700,
                         City = "Esbjerg",
-                        Country = 1
+                        Country = new CountryEntity
+                        {
+                            Id = 4,
+                            CountryName = "Iceland"
+                        }
                     }
                 }
             };
@@ -78,7 +90,11 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                     HouseNumber = ce.Address.HouseNumber,
                     PostalCode = ce.Address.PostalCode,
                     City = ce.Address.City,
-                    Country = ce.Address.Country
+                    Country = new Country
+                    {
+                        Id = ce.Address.Country.Id,
+                        CountryName = ce.Address.Country.CountryName
+                    }
                 }
             }).ToList();
         }
@@ -165,7 +181,11 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                     HouseNumber = 69,
                     PostalCode = 6700,
                     City = "Springfield",
-                    Country = 5
+                    Country = new Country
+                    {
+                        Id = 1,
+                        CountryName = "South Africa"
+                    }
                 }
             };
             Assert.Equal(4,_repo.Create(client).Id);

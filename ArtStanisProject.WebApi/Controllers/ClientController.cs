@@ -41,7 +41,11 @@ namespace ArtStanisProject_Backend.Controllers
                             HouseNumber = c.Address.HouseNumber,
                             PostalCode = c.Address.PostalCode,
                             City = c.Address.City,
-                            Country = c.Address.Country
+                            Country = new CountryDto
+                            {
+                                Id = c.Address.Country.Id,
+                                CountryName = c.Address.Country.CountryName
+                            }
                         }
                     })
                     .ToList();
@@ -75,7 +79,11 @@ namespace ArtStanisProject_Backend.Controllers
                         HouseNumber = client.Address.HouseNumber,
                         PostalCode = client.Address.PostalCode,
                         City = client.Address.City,
-                        Country = client.Address.Country
+                        Country = new CountryDto
+                        {
+                            Id = client.Address.Country.Id,
+                            CountryName = client.Address.Country.CountryName
+                        }
                     }
                 });
             }
@@ -89,40 +97,55 @@ namespace ArtStanisProject_Backend.Controllers
         [HttpPost]
         public ActionResult<ClientDto> Create(ClientDto clientDto)
         {
-            var client = _service.CreateClient(new Client
+            try
             {
-                Id = clientDto.Id,
-                Name = clientDto.Name,
-                ApplyDate = clientDto.ApplyDate,
-                Priority = clientDto.Priority,
-                Notes = clientDto.Notes,
-                Address = new Address
+                var client = _service.CreateClient(new Client
                 {
-                    Id = clientDto.Address.Id,
-                    Street = clientDto.Address.Street,
-                    HouseNumber = clientDto.Address.HouseNumber,
-                    PostalCode = clientDto.Address.PostalCode,
-                    City = clientDto.Address.City,
-                    Country = clientDto.Address.Country
-                }
-            });
-            return StatusCode(201,new ClientDto
+                    Id = clientDto.Id,
+                    Name = clientDto.Name,
+                    ApplyDate = clientDto.ApplyDate,
+                    Priority = clientDto.Priority,
+                    Notes = clientDto.Notes,
+                    Address = new Address
+                    {
+                        Id = clientDto.Address.Id,
+                        Street = clientDto.Address.Street,
+                        HouseNumber = clientDto.Address.HouseNumber,
+                        PostalCode = clientDto.Address.PostalCode,
+                        City = clientDto.Address.City,
+                        Country = new Country
+                        {
+                            Id = clientDto.Address.Country.Id,
+                            CountryName = clientDto.Address.Country.CountryName
+                        }
+                    }
+                });
+                return StatusCode(201,new ClientDto
+                {
+                    Id = client.Id,
+                    Name = client.Name,
+                    ApplyDate = client.ApplyDate,
+                    Priority = client.Priority,
+                    Notes = client.Notes,
+                    Address = new ClientAddressDto
+                    {
+                        Id = client.Address.Id,
+                        Street = client.Address.Street,
+                        HouseNumber = client.Address.HouseNumber,
+                        PostalCode = client.Address.PostalCode,
+                        City = client.Address.City,
+                        Country = new CountryDto
+                        {
+                            Id = client.Address.Country.Id,
+                            CountryName = client.Address.Country.CountryName
+                        }
+                    }
+                });
+            }
+            catch (ArgumentException e)
             {
-                Id = client.Id,
-                Name = client.Name,
-                ApplyDate = client.ApplyDate,
-                Priority = client.Priority,
-                Notes = client.Notes,
-                Address = new ClientAddressDto
-                {
-                    Id = client.Address.Id,
-                    Street = client.Address.Street,
-                    HouseNumber = client.Address.HouseNumber,
-                    PostalCode = client.Address.PostalCode,
-                    City = client.Address.City,
-                    Country = client.Address.Country
-                }
-            });
+                return BadRequest(e.Message);
+            }
         }
         
         [Authorize]
@@ -134,9 +157,9 @@ namespace ArtStanisProject_Backend.Controllers
                 var client = _service.DeleteClient(id);
                 return StatusCode(200,client);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
-                return BadRequest("Client id not found");
+                return BadRequest(e.Message);
             }
         }
 
@@ -162,7 +185,11 @@ namespace ArtStanisProject_Backend.Controllers
                         HouseNumber = clientDto.Address.HouseNumber,
                         PostalCode = clientDto.Address.PostalCode,
                         City = clientDto.Address.City,
-                        Country = clientDto.Address.Country
+                        Country = new Country
+                        {
+                            Id = clientDto.Address.Country.Id,
+                            CountryName = clientDto.Address.Country.CountryName
+                        }
                     }
                 });
                 return StatusCode(200,new ClientDto
@@ -179,7 +206,11 @@ namespace ArtStanisProject_Backend.Controllers
                         HouseNumber = client.Address.HouseNumber,
                         PostalCode = client.Address.PostalCode,
                         City = client.Address.City,
-                        Country = client.Address.Country
+                        Country = new CountryDto
+                        {
+                            Id = client.Address.Country.Id,
+                            CountryName = client.Address.Country.CountryName
+                        }
                     }
                 });
             }
