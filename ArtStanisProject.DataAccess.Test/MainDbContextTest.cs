@@ -26,7 +26,7 @@ namespace ArtStanisProject.DataAccess.Test
         public void DbContext_DbSets_MustHaveDbSetWithTypeAddressEntity()
         {
             var mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
-            Assert.True(mockedDbContext.Clients is DbSet<AddressEntity>);
+            Assert.True(mockedDbContext.Addresses is DbSet<AddressEntity>);
         }
     }
 }

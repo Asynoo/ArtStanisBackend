@@ -160,7 +160,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                 Name = "Client4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                 Address = new Address
                 {
-                    Id = 3,
+                    Id = 4,
                     Street = "Teststreet",
                     HouseNumber = 69,
                     PostalCode = 6700,

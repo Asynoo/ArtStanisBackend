@@ -183,9 +183,9 @@ namespace ArtStanisProject_Backend.Controllers
                     }
                 });
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
-                return BadRequest("Client with specified ID does not exist");
+                return BadRequest(e.Message);
             }
         }
     }

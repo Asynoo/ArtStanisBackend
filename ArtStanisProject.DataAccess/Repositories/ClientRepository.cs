@@ -135,26 +135,39 @@ namespace ArtStanisProject.DataAccess.Repositories
         public Client Update(Client client)
         {
             if (client == null) throw new ArgumentException("Client cannot be null");
-            if (!_ctx.Clients.Any(ce => ce.Id == client.Id))
+            var editedClient = _ctx.Clients.FirstOrDefault(ce => ce.Id == client.Id);
+            if (editedClient == null)
                 throw new ArgumentException("Client with the specified ID does not exist");
-            var clientEntity = new ClientEntity
+
+            editedClient.Name = client.Name;
+            editedClient.Notes = client.Notes;
+            editedClient.Priority = client.Priority;
+            editedClient.ApplyDate = client.ApplyDate;
+
+            var address = _ctx.Addresses.FirstOrDefault(entity =>
+                entity.Street == client.Address.Street &&
+                entity.HouseNumber == client.Address.HouseNumber &&
+                entity.PostalCode == client.Address.PostalCode &&
+                entity.City == client.Address.City &&
+                entity.Country == client.Address.Country
+            );
+            if (address != null)
             {
-                Id = client.Id,
-                Name = client.Name,
-                ApplyDate = client.ApplyDate,
-                Priority = client.Priority,
-                Notes = client.Notes,
-                Address = new AddressEntity
+                editedClient.Address = address;
+            }
+            else
+            {
+                editedClient.Address = new AddressEntity
                 {
                     Street = client.Address.Street,
                     HouseNumber = client.Address.HouseNumber,
                     PostalCode = client.Address.PostalCode,
                     City = client.Address.City,
                     Country = client.Address.Country
-                }
-            };
-            _ctx.Clients.Update(clientEntity);
-            var updatedEntity = _ctx.Clients.Update(clientEntity).Entity;
+                };
+            }
+
+            var updatedEntity = _ctx.Clients.Update(editedClient).Entity;
             _ctx.SaveChanges();
             return new Client {
                 Id = updatedEntity.Id,
