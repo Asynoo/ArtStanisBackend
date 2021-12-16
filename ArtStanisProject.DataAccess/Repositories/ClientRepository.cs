@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using ArtStanisProject.Core.Models;
+﻿using ArtStanisProject.Core.Models;
 using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.Domain.IRepositories;
 
@@ -23,11 +19,18 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 Id = ce.Id,
                 Name = ce.Name,
-                Address = ce.Address,
                 ApplyDate = ce.ApplyDate,
-                Country = ce.Country,
                 Notes = ce.Notes,
-                Priority = ce.Priority
+                Priority = ce.Priority,
+                Address = new Address
+                {
+                    Id = ce.Address.Id,
+                    Street = ce.Address.Street,
+                    HouseNumber = ce.Address.HouseNumber,
+                    PostalCode = ce.Address.PostalCode,
+                    City = ce.Address.City,
+                    Country = ce.Address.Country
+                }
             }).ToList();
         }
 
@@ -39,11 +42,18 @@ namespace ArtStanisProject.DataAccess.Repositories
                 return new Client {
                     Id = client.Id,
                     Name = client.Name,
-                    Address = client.Address,
                     ApplyDate = client.ApplyDate,
-                    Country = client.Country,
                     Notes = client.Notes,
-                    Priority = client.Priority
+                    Priority = client.Priority,
+                    Address = new Address
+                    {
+                        Id = client.Address.Id,
+                        Street = client.Address.Street,
+                        HouseNumber = client.Address.HouseNumber,
+                        PostalCode = client.Address.PostalCode,
+                        City = client.Address.City,
+                        Country = client.Address.Country
+                    }
                 };
             }
             catch (Exception e)
@@ -55,43 +65,66 @@ namespace ArtStanisProject.DataAccess.Repositories
         public Client Create(Client client)
         {
             if (client == null) throw new ArgumentException("Client cannot be null");
+            
             var clientEntity = new ClientEntity
             {
                 Name = client.Name,
-                Address = client.Address,
-                Country = client.Country,
                 ApplyDate = client.ApplyDate,
                 Priority = client.Priority,
                 Notes = client.Notes
             };
+            
+            var address = _ctx.Addresses.FirstOrDefault(entity =>
+                entity.Street == client.Address.Street &&
+                entity.HouseNumber == client.Address.HouseNumber &&
+                entity.PostalCode == client.Address.PostalCode &&
+                entity.City == client.Address.City &&
+                entity.Country == client.Address.Country
+            );
+            if (address != null)
+            {
+                clientEntity.Address = address;
+            }
+            else
+            {
+                clientEntity.Address = new AddressEntity
+                {
+                    Id = client.Address.Id,
+                    Street = client.Address.Street,
+                    HouseNumber = client.Address.HouseNumber,
+                    PostalCode = client.Address.PostalCode,
+                    City = client.Address.City,
+                    Country = client.Address.Country
+                };
+            }
+            
             var createdEntity = _ctx.Clients.Add(clientEntity).Entity;
             _ctx.SaveChanges();
             return new Client {
                 Id = createdEntity.Id,
                 Name = createdEntity.Name,
-                Address = createdEntity.Address,
-                Country = createdEntity.Country,
                 ApplyDate = createdEntity.ApplyDate,
                 Priority = createdEntity.Priority,
-                Notes = createdEntity.Notes };
+                Notes = createdEntity.Notes,
+                Address = new Address
+                {
+                    Id = createdEntity.Address.Id,
+                    Street = createdEntity.Address.Street,
+                    HouseNumber = createdEntity.Address.HouseNumber,
+                    PostalCode = createdEntity.Address.PostalCode,
+                    City = createdEntity.Address.City,
+                    Country = createdEntity.Address.Country
+                } };
         }
 
-        public Client Delete(int clientId)
+        public int Delete(int clientId)
         {
             try
             {
                 var clientEntity = _ctx.Clients.Single(ce => ce.Id == clientId);
                 var deletedEntity = _ctx.Clients.Remove(clientEntity).Entity;
                 _ctx.SaveChanges();
-                return new Client {
-                    Id = deletedEntity.Id,
-                    Name = deletedEntity.Name,
-                    Address = deletedEntity.Address,
-                    Country = deletedEntity.Country,
-                    ApplyDate = deletedEntity.ApplyDate,
-                    Priority = deletedEntity.Priority,
-                    Notes = deletedEntity.Notes 
-                };
+                return deletedEntity.Id;
             }
             catch (Exception e)
             {
@@ -108,11 +141,17 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 Id = client.Id,
                 Name = client.Name,
-                Address = client.Address,
-                Country = client.Country,
                 ApplyDate = client.ApplyDate,
                 Priority = client.Priority,
-                Notes = client.Notes
+                Notes = client.Notes,
+                Address = new AddressEntity
+                {
+                    Street = client.Address.Street,
+                    HouseNumber = client.Address.HouseNumber,
+                    PostalCode = client.Address.PostalCode,
+                    City = client.Address.City,
+                    Country = client.Address.Country
+                }
             };
             _ctx.Clients.Update(clientEntity);
             var updatedEntity = _ctx.Clients.Update(clientEntity).Entity;
@@ -120,11 +159,19 @@ namespace ArtStanisProject.DataAccess.Repositories
             return new Client {
                 Id = updatedEntity.Id,
                 Name = updatedEntity.Name,
-                Address = updatedEntity.Address,
-                Country = updatedEntity.Country,
                 ApplyDate = updatedEntity.ApplyDate,
                 Priority = updatedEntity.Priority,
-                Notes = updatedEntity.Notes };
+                Notes = updatedEntity.Notes,
+                Address = new Address
+                {
+                    Id = updatedEntity.Address.Id,
+                    Street = updatedEntity.Address.Street,
+                    HouseNumber = updatedEntity.Address.HouseNumber,
+                    PostalCode = updatedEntity.Address.PostalCode,
+                    City = updatedEntity.Address.City,
+                    Country = updatedEntity.Address.Country
+                }
+            };
         }
     }
 }

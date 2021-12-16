@@ -7,7 +7,6 @@ using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.DataAccess.Repositories;
 using ArtStanisProject.Domain.IRepositories;
 using EntityFrameworkCore.Testing.Moq;
-using Moq;
 using Xunit;
 
 namespace ArtStanisProject.DataAccess.Test.Repositories
@@ -25,18 +24,42 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             {
                 new ClientEntity
                 {
-                    Id = 1, Name = "Client1", Address = "test1",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 1, Notes = "none"
+                    Id = 1, Name = "Client1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 1,
+                        Street = "Rolfsgade",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 },
                 new ClientEntity
                 {
-                    Id = 2, Name = "Client2", Address = "test2",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
+                    Id = 2, Name = "Client2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 2,
+                        Street = "Exnersgade",
+                        HouseNumber = 61,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 },
                 new ClientEntity
                 {
-                    Id = 3, Name = "Client3", Address = "test3",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+                    Id = 3, Name = "Client3", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 3,
+                        Street = "Jyllandsgade",
+                        HouseNumber = 3,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 }
             };
             mockedDbContext.Set<ClientEntity>().AddRange(entities);
@@ -45,11 +68,18 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             {
                 Id = ce.Id,
                 Name = ce.Name,
-                Address = ce.Address,
-                Country = ce.Country,
                 ApplyDate = ce.ApplyDate,
                 Priority = ce.Priority,
-                Notes = ce.Notes
+                Notes = ce.Notes,
+                Address = new Address
+                {
+                    Id = ce.Address.Id,
+                    Street = ce.Address.Street,
+                    HouseNumber = ce.Address.HouseNumber,
+                    PostalCode = ce.Address.PostalCode,
+                    City = ce.Address.City,
+                    Country = ce.Address.Country
+                }
             }).ToList();
         }
 
@@ -127,8 +157,16 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var client = new Client
             {
-                Name = "Client4", Address = "test4",
-                Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+                Name = "Client4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Address = new Address
+                {
+                    Id = 3,
+                    Street = "Teststreet",
+                    HouseNumber = 69,
+                    PostalCode = 6700,
+                    City = "Springfield",
+                    Country = 5
+                }
             };
             Assert.Equal(4,_repo.Create(client).Id);
         }
@@ -151,9 +189,9 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         }
 
         [Fact]
-        public void ClientRepository_DeleteClientEntity_ReturnsClientWIthCorrectId()
+        public void ClientRepository_DeleteClientEntity_ReturnsCorrectId()
         {
-            Assert.Equal(2,_repo.Delete(2).Id);
+            Assert.Equal(2,_repo.Delete(2));
         }
 
         #endregion
@@ -172,19 +210,6 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             var ex = Assert.Throws<ArgumentException>(() => _repo.Update(null));
             Assert.Equal("Client cannot be null",ex.Message);
         }
-        
-        // This don't work and I have no clue why
-        
-        // [Fact]
-        // public void ClientRepository_UpdateClientEntity_ReturnsClientWIthCorrectId()
-        // {
-        //     var client = new Client
-        //     {
-        //         Id = 2, Name = "Client2", Address = "testEdit",
-        //         Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
-        //     };
-        //     Assert.Equal(2,_repo.Update(client).Id);
-        // }
 
         #endregion
     }
@@ -197,13 +222,13 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             if (ReferenceEquals(x, null)) return false;
             if (ReferenceEquals(y, null)) return false;
             if (x.GetType() != y.GetType()) return false;
-            return x.Id == y.Id && x.Name == y.Name && x.Address == y.Address && x.ApplyDate.Equals(y.ApplyDate) 
-                   && x.Country == y.Country && x.Notes == y.Notes && x.Priority == y.Priority;
+            return x.Id == y.Id && x.Name == y.Name && x.ApplyDate.Equals(y.ApplyDate) 
+                   && x.Notes == y.Notes && x.Priority == y.Priority;
         }
 
         public int GetHashCode(Client obj)
         {
-            return HashCode.Combine(obj.Id, obj.Name, obj.Address, obj.ApplyDate, obj.Country, obj.Notes, obj.Priority);
+            return HashCode.Combine(obj.Id, obj.Name,  obj.ApplyDate, obj.Notes, obj.Priority);
         }
     }
 }

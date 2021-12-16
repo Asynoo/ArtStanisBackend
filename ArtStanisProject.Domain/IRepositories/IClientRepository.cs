@@ -8,7 +8,7 @@ namespace ArtStanisProject.Domain.IRepositories
         List<Client> FindAll();
         Client Find(int clientId);
         Client Create(Client client);
-        Client Delete(int clientId);
+        int Delete(int clientId);
         Client Update(Client client);
     }
 }

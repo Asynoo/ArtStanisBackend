@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Data.Entity;
 using ArtStanisProject.DataAccess.Entities;
 
 namespace ArtStanisProject.DataAccess
@@ -20,38 +21,86 @@ namespace ArtStanisProject.DataAccess
             _ctx.Clients.Add(
                 new ClientEntity
                 {
-                    Name = "Client1", Address = "Street 6",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 1, Notes = "none"
+                    Name = "Client1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 1,
+                        Street = "Rolfsgade",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 });
             _ctx.Clients.Add(
                 new ClientEntity
                 {
-                    Name = "Client2", Address = "Street 9",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+                    Name = "Client2", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 2,
+                        Street = "street2",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 });
             _ctx.Clients.Add(
                 new ClientEntity
                 {
-                    Name = "Client3", Address = "Street 3",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 1, Notes = "none"
+                    Name = "Client3", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 3,
+                        Street = "Street3",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 });
             _ctx.Clients.Add(
                 new ClientEntity
                 {
-                    Name = "Client4", Address = "Street 1",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
+                    Name = "Client4", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 4,
+                        Street = "Street4",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 });
             _ctx.Clients.Add(
                 new ClientEntity
                 {
-                    Name = "Client5", Address = "Street 2",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
+                    Name = "Client5", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 5,
+                        Street = "street5",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 });
             _ctx.Clients.Add(
                 new ClientEntity
                 {
-                    Name = "Client6", Address = "Street 5",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+                    Name = "Client6", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 6,
+                        Street = "street6",
+                        HouseNumber = 11,
+                        PostalCode = 6700,
+                        City = "Esbjerg",
+                        Country = 1
+                    }
                 });
             _ctx.SaveChanges();
         }

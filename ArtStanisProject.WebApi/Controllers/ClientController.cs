@@ -31,11 +31,18 @@ namespace ArtStanisProject_Backend.Controllers
                     .Select(c => new ClientDto {
                         Id = c.Id,
                         Name = c.Name,
-                        Address = c.Address,
-                        Country = c.Country,
                         ApplyDate = c.ApplyDate,
                         Priority = c.Priority,
-                        Notes = c.Notes
+                        Notes = c.Notes,
+                        Address = new ClientAddressDto
+                        {
+                            Id = c.Address.Id,
+                            Street = c.Address.Street,
+                            HouseNumber = c.Address.HouseNumber,
+                            PostalCode = c.Address.PostalCode,
+                            City = c.Address.City,
+                            Country = c.Address.Country
+                        }
                     })
                     .ToList();
                 return Ok(list);
@@ -58,11 +65,18 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = client.Id,
                     Name = client.Name,
-                    Address = client.Address,
-                    Country = client.Country,
                     ApplyDate = client.ApplyDate,
                     Priority = client.Priority,
-                    Notes = client.Notes
+                    Notes = client.Notes,
+                    Address = new ClientAddressDto
+                    {
+                        Id = client.Address.Id,
+                        Street = client.Address.Street,
+                        HouseNumber = client.Address.HouseNumber,
+                        PostalCode = client.Address.PostalCode,
+                        City = client.Address.City,
+                        Country = client.Address.Country
+                    }
                 });
             }
             catch (Exception e)
@@ -79,41 +93,46 @@ namespace ArtStanisProject_Backend.Controllers
             {
                 Id = clientDto.Id,
                 Name = clientDto.Name,
-                Address = clientDto.Address,
-                Country = clientDto.Country,
                 ApplyDate = clientDto.ApplyDate,
                 Priority = clientDto.Priority,
-                Notes = clientDto.Notes
+                Notes = clientDto.Notes,
+                Address = new Address
+                {
+                    Id = clientDto.Address.Id,
+                    Street = clientDto.Address.Street,
+                    HouseNumber = clientDto.Address.HouseNumber,
+                    PostalCode = clientDto.Address.PostalCode,
+                    City = clientDto.Address.City,
+                    Country = clientDto.Address.Country
+                }
             });
             return StatusCode(201,new ClientDto
             {
                 Id = client.Id,
                 Name = client.Name,
-                Address = client.Address,
-                Country = client.Country,
                 ApplyDate = client.ApplyDate,
                 Priority = client.Priority,
-                Notes = client.Notes
+                Notes = client.Notes,
+                Address = new ClientAddressDto
+                {
+                    Id = client.Address.Id,
+                    Street = client.Address.Street,
+                    HouseNumber = client.Address.HouseNumber,
+                    PostalCode = client.Address.PostalCode,
+                    City = client.Address.City,
+                    Country = client.Address.Country
+                }
             });
         }
         
         [Authorize]
         [HttpDelete("{id:int}")]
-        public ActionResult<ClientDto> Delete(int id)
+        public ActionResult<int> Delete(int id)
         {
             try
             {
                 var client = _service.DeleteClient(id);
-                return StatusCode(200,new ClientDto
-                {
-                    Id = client.Id,
-                    Name = client.Name,
-                    Address = client.Address,
-                    Country = client.Country,
-                    ApplyDate = client.ApplyDate,
-                    Priority = client.Priority,
-                    Notes = client.Notes
-                });
+                return StatusCode(200,client);
             }
             catch (Exception e)
             {
@@ -133,21 +152,35 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = clientDto.Id,
                     Name = clientDto.Name,
-                    Address = clientDto.Address,
-                    Country = clientDto.Country,
                     ApplyDate = clientDto.ApplyDate,
                     Priority = clientDto.Priority,
-                    Notes = clientDto.Notes
+                    Notes = clientDto.Notes,
+                    Address = new Address
+                    {
+                        Id = clientDto.Address.Id,
+                        Street = clientDto.Address.Street,
+                        HouseNumber = clientDto.Address.HouseNumber,
+                        PostalCode = clientDto.Address.PostalCode,
+                        City = clientDto.Address.City,
+                        Country = clientDto.Address.Country
+                    }
                 });
                 return StatusCode(200,new ClientDto
                 {
                     Id = client.Id,
                     Name = client.Name,
-                    Address = client.Address,
-                    Country = client.Country,
                     ApplyDate = client.ApplyDate,
                     Priority = client.Priority,
-                    Notes = client.Notes
+                    Notes = client.Notes,
+                    Address = new ClientAddressDto
+                    {
+                        Id = client.Address.Id,
+                        Street = client.Address.Street,
+                        HouseNumber = client.Address.HouseNumber,
+                        PostalCode = client.Address.PostalCode,
+                        City = client.Address.City,
+                        Country = client.Address.Country
+                    }
                 });
             }
             catch (Exception e)
