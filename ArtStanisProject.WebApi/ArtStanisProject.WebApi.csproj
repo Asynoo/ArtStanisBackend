@@ -20,4 +20,8 @@
       <ProjectReference Include="..\ArtStanisProject.Security\ArtStanisProject.Security.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="countries.json" />
+    </ItemGroup>
+
 </Project>

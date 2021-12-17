@@ -36,7 +36,6 @@ namespace ArtStanisProject_Backend.Controllers
             {
                 return StatusCode(500,"Please contact admin!");
             }
-            
         }
     }
 }

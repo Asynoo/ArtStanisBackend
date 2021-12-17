@@ -21,9 +21,7 @@ namespace ArtStanisProject.DataAccess
             _ctx.Database.EnsureDeleted();
             _ctx.Database.EnsureCreated();
             List<CountryEntity> countries;
-            using (var reader = new StreamReader(
-                Directory.GetParent(Directory.GetCurrentDirectory()) 
-                + "/ArtStanisProject.DataAccess/countries.json"))
+            using (var reader = new StreamReader(Directory.GetCurrentDirectory() + "/countries.json"))
             {
                 var json = reader.ReadToEnd();
                 countries = JsonConvert.DeserializeObject<List<CountryEntity>>(json);
