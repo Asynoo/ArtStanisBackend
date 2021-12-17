@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ArtStanisProject.Domain\ArtStanisProject.Domain.csproj" />
+        <ProjectReference Include="..\ArtStanisProject.Domain\ArtStanisProject.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="EntityFramework" Version="6.4.4" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
-      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+        <PackageReference Include="EntityFramework" Version="6.4.4"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12"/>
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
     </ItemGroup>
 
 </Project>

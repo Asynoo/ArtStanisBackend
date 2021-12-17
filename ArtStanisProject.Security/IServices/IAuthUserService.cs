@@ -1,10 +1,8 @@
 ﻿using ArtStanisProject.Security.Models;
 
-namespace ArtStanisProject.Security.IServices
-{
+namespace ArtStanisProject.Security.IServices;
 
-    public interface IAuthUserService
-    {
-        AuthUser FindUser(string username);
-    }
+public interface IAuthUserService
+{
+    AuthUser FindUser(string username);
 }

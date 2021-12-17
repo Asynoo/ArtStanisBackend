@@ -1,5 +1,4 @@
-﻿
-using ArtStanisProject.Core.Models;
+﻿using ArtStanisProject.Core.Models;
 using Xunit;
 
 namespace ArtStanisProject.Core.Test.Models
@@ -18,7 +17,7 @@ namespace ArtStanisProject.Core.Test.Models
         {
             Assert.NotNull(_client);
         }
-        
+
         [Fact]
         public void Client_Id_MustBeInt()
         {
@@ -31,7 +30,7 @@ namespace ArtStanisProject.Core.Test.Models
             _client.Id = 1;
             Assert.Equal(1, _client.Id);
         }
-        
+
         [Fact]
         public void Client_UpdateId_StoredID()
         {

@@ -6,15 +6,14 @@ using ArtStanisProject.Domain.IRepositories;
 using ArtStanisProject.Domain.Services;
 using Moq;
 using Xunit;
-using Xunit.Sdk;
 
 namespace ArtStanisProject.Domain.Test.Services
 {
     public class ClientServiceTest
     {
-        private Mock<IClientRepository> _mock;
-        private ClientService _service;
         private List<Client> _expected;
+        private readonly Mock<IClientRepository> _mock;
+        private readonly ClientService _service;
 
         public ClientServiceTest()
         {
@@ -40,7 +39,7 @@ namespace ArtStanisProject.Domain.Test.Services
             _service.GetAllClients();
             _mock.Verify(repository => repository.FindAll(), Times.Once);
         }
-        
+
         [Fact]
         public void GetClients_ReturnsListOfAllClients()
         {
@@ -48,14 +47,14 @@ namespace ArtStanisProject.Domain.Test.Services
             var actual = _service.GetAllClients();
             Assert.Equal(_expected, actual);
         }
-        
+
         [Fact]
         public void GetClient_CallsFindExactlyOnce()
         {
             _service.GetClient(1);
             _mock.Verify(repository => repository.Find(1), Times.Once);
         }
-        
+
         [Fact]
         public void CreateClient_CallsCreateExactlyOnce()
         {
@@ -63,14 +62,14 @@ namespace ArtStanisProject.Domain.Test.Services
             _service.CreateClient(client);
             _mock.Verify(repository => repository.Create(client), Times.Once);
         }
-        
+
         [Fact]
         public void DeleteClient_CallsDeleteExactlyOnce()
         {
             _service.DeleteClient(1);
             _mock.Verify(repository => repository.Delete(1), Times.Once);
         }
-        
+
         [Fact]
         public void DeleteClient_CallsUpdateExactlyOnce()
         {

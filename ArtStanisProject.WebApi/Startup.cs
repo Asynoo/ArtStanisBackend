@@ -24,12 +24,13 @@ namespace ArtStanisProject_Backend
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -58,7 +59,7 @@ namespace ArtStanisProject_Backend
                                 Id = "Bearer"
                             }
                         },
-                        new string[] {}
+                        new string[] { }
                     }
                 });
             });
@@ -66,10 +67,10 @@ namespace ArtStanisProject_Backend
             #region Authentication
 
             services.AddAuthentication(authenticationOptions =>
-            {
-                authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+                {
+                    authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -89,6 +90,7 @@ namespace ArtStanisProject_Backend
             #endregion
 
             #region Dependency Injection
+
             //Clients
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IClientRepository, ClientRepository>();
@@ -103,19 +105,13 @@ namespace ArtStanisProject_Backend
             services.AddScoped<IAuthDbSeeder, AuthDbSeeder>();
 
             #endregion
-            
+
             // ClientDB
-            services.AddDbContext<MainDbContext>(builder =>
-            {
-                builder.UseSqlite("Data source =main.db");
-            });
-            
+            services.AddDbContext<MainDbContext>(builder => { builder.UseSqlite("Data source =main.db"); });
+
             // AuthDB
-            services.AddDbContext<AuthDbContext>(builder =>
-            {
-                builder.UseSqlite("Data source =auth.db");
-            });
-            
+            services.AddDbContext<AuthDbContext>(builder => { builder.UseSqlite("Data source =auth.db"); });
+
             services.AddCors(opt => opt
                 .AddPolicy("dev-policy", policy =>
                 {
@@ -150,7 +146,7 @@ namespace ArtStanisProject_Backend
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

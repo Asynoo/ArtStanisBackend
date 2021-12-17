@@ -11,20 +11,21 @@ namespace ArtStanisProject_Backend.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private ICountryService _service;
+        private readonly ICountryService _service;
 
         public CountryController(ICountryService service)
         {
             _service = service ?? throw new InvalidDataException("CountryService cannot be null");
         }
-        
+
         [HttpGet]
         public ActionResult<CountriesDto> GetAll()
         {
             try
             {
                 var list = _service.GetAllCountries()
-                    .Select(c => new CountryDto {
+                    .Select(c => new CountryDto
+                    {
                         Id = c.Id,
                         CountryName = c.CountryName,
                         CountryCode = c.CountryCode
@@ -34,7 +35,7 @@ namespace ArtStanisProject_Backend.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500,"Please contact admin!");
+                return StatusCode(500, "Please contact admin!");
             }
         }
     }

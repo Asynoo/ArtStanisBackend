@@ -15,13 +15,13 @@ namespace ArtStanisProject_Backend.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private IClientService _service;
+        private readonly IClientService _service;
 
         public ClientController(IClientService service)
         {
             _service = service ?? throw new InvalidDataException("ClientService cannot be null");
         }
-        
+
         [Authorize]
         [HttpGet]
         public ActionResult<ClientsAllDto> GetAll()
@@ -29,7 +29,8 @@ namespace ArtStanisProject_Backend.Controllers
             try
             {
                 var list = _service.GetAllClients()
-                    .Select(c => new ClientDto {
+                    .Select(c => new ClientDto
+                    {
                         Id = c.Id,
                         Name = c.Name,
                         ApplyDate = c.ApplyDate,
@@ -56,9 +57,8 @@ namespace ArtStanisProject_Backend.Controllers
             {
                 return BadRequest("Clients not found");
             }
-            
         }
-        
+
         [Authorize]
         [HttpGet("{id:int}")]
         public ActionResult<List<Client>> Get(int id)
@@ -93,7 +93,7 @@ namespace ArtStanisProject_Backend.Controllers
                 return BadRequest("Client id not found");
             }
         }
-        
+
         [Authorize]
         [HttpPost]
         public ActionResult<ClientDto> Create(ClientDto clientDto)
@@ -121,7 +121,7 @@ namespace ArtStanisProject_Backend.Controllers
                         }
                     }
                 });
-                return StatusCode(201,new ClientDto
+                return StatusCode(201, new ClientDto
                 {
                     Id = client.Id,
                     Name = client.Name,
@@ -148,7 +148,7 @@ namespace ArtStanisProject_Backend.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [Authorize]
         [HttpDelete("{id:int}")]
         public ActionResult<int> Delete(int id)
@@ -156,7 +156,7 @@ namespace ArtStanisProject_Backend.Controllers
             try
             {
                 var client = _service.DeleteClient(id);
-                return StatusCode(200,client);
+                return StatusCode(200, client);
             }
             catch (ArgumentException e)
             {
@@ -166,7 +166,7 @@ namespace ArtStanisProject_Backend.Controllers
 
         [Authorize]
         [HttpPut("{id:int}")]
-        public ActionResult<ClientDto> Update(int id,ClientDto clientDto)
+        public ActionResult<ClientDto> Update(int id, ClientDto clientDto)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace ArtStanisProject_Backend.Controllers
                         }
                     }
                 });
-                return StatusCode(200,new ClientDto
+                return StatusCode(200, new ClientDto
                 {
                     Id = client.Id,
                     Name = client.Name,

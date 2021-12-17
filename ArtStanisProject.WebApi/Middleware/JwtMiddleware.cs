@@ -12,9 +12,9 @@ namespace ArtStanisProject_Backend.Middleware
 {
     public class JwtMiddleware
     {
-        private readonly RequestDelegate _next;
         private readonly IConfiguration _configuration;
-      
+        private readonly RequestDelegate _next;
+
         public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
@@ -47,16 +47,16 @@ namespace ArtStanisProject_Backend.Middleware
                     ClockSkew = TimeSpan.Zero,
                     ValidIssuer = _configuration["Jwt:Issuer"],
                     ValidAudience = _configuration["Jwt:Audience"]
-                }, out SecurityToken validatedToken);
+                }, out var validatedToken);
 
-                var jwtToken = (JwtSecurityToken)validatedToken;
+                var jwtToken = (JwtSecurityToken) validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "Id").Value);
                 var userName = jwtToken.Claims.First(x => x.Type == "Username").Value;
 
                 // attach account to context on successful jwt validation
-                context.Items["LoginUser"] = new AuthUser { Id = userId, Username = userName };
+                context.Items["LoginUser"] = new AuthUser {Id = userId, Username = userName};
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 // do nothing if jwt validation fails
                 // account is not attached to context so request won't have access to secure routes

@@ -6,6 +6,7 @@ namespace ArtStanisProject.DataAccess.Repositories;
 public class CountryRepository : ICountryRepository
 {
     private readonly MainDbContext _ctx;
+
     public CountryRepository(MainDbContext ctx)
     {
         _ctx = ctx;

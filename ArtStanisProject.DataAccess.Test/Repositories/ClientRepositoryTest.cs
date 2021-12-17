@@ -13,12 +13,12 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
 {
     public class ClientRepositoryTest
     {
+        private readonly List<Client> _expected;
         private readonly ClientRepository _repo;
-        private readonly List<Client> _expected;       
-        
+
         public ClientRepositoryTest()
         {
-            MainDbContext mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
+            var mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
             _repo = new ClientRepository(mockedDbContext);
             List<ClientEntity> entities = new()
             {
@@ -112,12 +112,12 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             Assert.Throws<InvalidDataException>(() => new ClientRepository(null));
         }
-        
+
         [Fact]
         public void ClientRepository_WithNullDbContextThrowsInvalidDataExceptionWithMessage()
         {
             var ex = Assert.Throws<InvalidDataException>(() => new ClientRepository(null));
-            Assert.Equal("ClientRepository's DbContext cannot be null",ex.Message);
+            Assert.Equal("ClientRepository's DbContext cannot be null", ex.Message);
         }
 
         #endregion
@@ -127,7 +127,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         [Fact]
         public void ClientRepository_GetAllClientEntities_AsAList()
         {
-            Assert.Equal(_expected,_repo.FindAll(), new Comparer());
+            Assert.Equal(_expected, _repo.FindAll(), new Comparer());
         }
 
         [Fact]
@@ -135,20 +135,20 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var actualClient = _repo.Find(2);
             var expectedClient = _expected.Single(client => client.Id == 2);
-            Assert.Equal(expectedClient,actualClient, new Comparer());
+            Assert.Equal(expectedClient, actualClient, new Comparer());
         }
-        
+
         [Fact]
         public void ClientRepository_GetClientEntityWithIncorrectId_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => _repo.Find(0));
         }
-        
+
         [Fact]
         public void ClientRepository_GetClientEntityWithIncorrectId_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Find(0));
-            Assert.Equal("Client ID not found",ex.Message);
+            Assert.Equal("Client ID not found", ex.Message);
         }
 
         #endregion
@@ -160,12 +160,12 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             Assert.Throws<ArgumentException>(() => _repo.Create(null));
         }
-        
+
         [Fact]
         public void ClientRepository_CreateClientEntityNoParam_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Create(null));
-            Assert.Equal("Client cannot be null",ex.Message);
+            Assert.Equal("Client cannot be null", ex.Message);
         }
 
         [Fact]
@@ -188,30 +188,30 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                     }
                 }
             };
-            Assert.Equal(4,_repo.Create(client).Id);
+            Assert.Equal(4, _repo.Create(client).Id);
         }
 
         #endregion
 
         #region DeleteMethod
-        
+
         [Fact]
         public void ClientRepository_DeleteClientEntityWithIncorrectId_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => _repo.Delete(0));
         }
-        
+
         [Fact]
         public void ClientRepository_DeleteClientEntityWithIncorrectId_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Delete(0));
-            Assert.Equal("Client ID not found",ex.Message);
+            Assert.Equal("Client ID not found", ex.Message);
         }
 
         [Fact]
         public void ClientRepository_DeleteClientEntity_ReturnsCorrectId()
         {
-            Assert.Equal(2,_repo.Delete(2));
+            Assert.Equal(2, _repo.Delete(2));
         }
 
         #endregion
@@ -223,12 +223,12 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             Assert.Throws<ArgumentException>(() => _repo.Update(null));
         }
-        
+
         [Fact]
         public void ClientRepository_UpdateClientEntityNoParam_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Update(null));
-            Assert.Equal("Client cannot be null",ex.Message);
+            Assert.Equal("Client cannot be null", ex.Message);
         }
 
         #endregion
@@ -242,13 +242,13 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             if (ReferenceEquals(x, null)) return false;
             if (ReferenceEquals(y, null)) return false;
             if (x.GetType() != y.GetType()) return false;
-            return x.Id == y.Id && x.Name == y.Name && x.ApplyDate.Equals(y.ApplyDate) 
+            return x.Id == y.Id && x.Name == y.Name && x.ApplyDate.Equals(y.ApplyDate)
                    && x.Notes == y.Notes && x.Priority == y.Priority;
         }
 
         public int GetHashCode(Client obj)
         {
-            return HashCode.Combine(obj.Id, obj.Name,  obj.ApplyDate, obj.Notes, obj.Priority);
+            return HashCode.Combine(obj.Id, obj.Name, obj.ApplyDate, obj.Notes, obj.Priority);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace ArtStanisProject.Domain.Services;
 
 public class CountryService : ICountryService
 {
-    private ICountryRepository _repo;
+    private readonly ICountryRepository _repo;
 
     public CountryService(ICountryRepository repo)
     {
