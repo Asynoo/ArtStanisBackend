@@ -93,7 +93,9 @@ namespace ArtStanisProject_Backend
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IMainDbSeeder, MainDbSeeder>();
-            
+            //Countries
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICountryService, CountryService>();
             //Security
             services.AddScoped<IAuthUserRepository, AuthUserRepository>();
             services.AddScoped<IAuthUserService, AuthUserService>();

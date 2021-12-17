@@ -183,8 +183,8 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                     City = "Springfield",
                     Country = new Country
                     {
-                        Id = 1,
-                        CountryName = "South Africa"
+                        Id = 2,
+                        CountryName = "Denmark"
                     }
                 }
             };

@@ -1,4 +1,6 @@
-﻿namespace ArtStanisProject_Backend.Dtos.Clients
+﻿using ArtStanisProject_Backend.Dtos.Countries;
+
+namespace ArtStanisProject_Backend.Dtos.Clients
 {
     public class ClientAddressDto
     {

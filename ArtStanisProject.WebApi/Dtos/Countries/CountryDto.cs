@@ -1,4 +1,4 @@
-﻿namespace ArtStanisProject_Backend.Dtos.Clients
+﻿namespace ArtStanisProject_Backend.Dtos.Countries
 {
     public class CountryDto
     {
