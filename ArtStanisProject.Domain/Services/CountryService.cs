@@ -1,8 +1,9 @@
-﻿using ArtStanisProject.Core.IServices;
+﻿using System.Collections.Generic;
+using ArtStanisProject.Core.IServices;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.Domain.IRepositories;
 
-namespace ArtStanisProject.Domain.Services;
+namespace ArtStanisProject.Domain.Services{
 
 public class CountryService : ICountryService
 {
@@ -17,4 +18,5 @@ public class CountryService : ICountryService
     {
         return _repo.FindAll();
     }
+}
 }

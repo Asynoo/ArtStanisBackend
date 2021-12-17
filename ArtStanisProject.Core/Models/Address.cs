@@ -1,4 +1,4 @@
-﻿namespace ArtStanisProject.Core.Models;
+﻿namespace ArtStanisProject.Core.Models{
 
 public class Address
 {
@@ -8,4 +8,5 @@ public class Address
     public int PostalCode { get; set; }
     public string City { get; set; }
     public Country Country { get; set; }
+}
 }

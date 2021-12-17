@@ -1,4 +1,4 @@
-﻿namespace ArtStanisProject.DataAccess.Entities;
+﻿namespace ArtStanisProject.DataAccess.Entities{
 
 public class AddressEntity
 {
@@ -8,4 +8,5 @@ public class AddressEntity
     public int PostalCode { get; set; }
     public string City { get; set; }
     public CountryEntity Country { get; set; }
+}
 }

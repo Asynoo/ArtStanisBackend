@@ -1,4 +1,6 @@
-﻿namespace ArtStanisProject.DataAccess.Entities
+﻿using System;
+
+namespace ArtStanisProject.DataAccess.Entities
 {
     public class ClientEntity
     {

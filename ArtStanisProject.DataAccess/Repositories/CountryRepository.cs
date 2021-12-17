@@ -1,7 +1,10 @@
-﻿using ArtStanisProject.Core.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ArtStanisProject.Core.Models;
+using ArtStanisProject.DataAccess;
 using ArtStanisProject.Domain.IRepositories;
 
-namespace ArtStanisProject.DataAccess.Repositories;
+namespace ArtStanisProject.DataAccess.Repositories{
 
 public class CountryRepository : ICountryRepository
 {
@@ -20,4 +23,5 @@ public class CountryRepository : ICountryRepository
             CountryCode = entity.CountryCode
         }).ToList();
     }
+}
 }

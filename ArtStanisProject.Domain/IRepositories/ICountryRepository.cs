@@ -1,8 +1,10 @@
-﻿using ArtStanisProject.Core.Models;
+﻿using System.Collections.Generic;
+using ArtStanisProject.Core.Models;
 
-namespace ArtStanisProject.Domain.IRepositories;
+namespace ArtStanisProject.Domain.IRepositories{
 
 public interface ICountryRepository
 {
     List<Country> FindAll();
+}
 }
