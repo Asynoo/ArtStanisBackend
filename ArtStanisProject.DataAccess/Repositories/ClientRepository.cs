@@ -68,36 +68,29 @@ namespace ArtStanisProject.DataAccess.Repositories
 
         public Client Find(int clientId)
         {
-            try
+            var query = _ctx.Clients.Select(ce => new Client
             {
-                var client = _ctx.Clients.Single(ce => ce.Id == clientId);
-                return new Client
+                Id = ce.Id,
+                Name = ce.Name,
+                ApplyDate = ce.ApplyDate,
+                Notes = ce.Notes,
+                Priority = ce.Priority,
+                Address = new Address
                 {
-                    Id = client.Id,
-                    Name = client.Name,
-                    ApplyDate = client.ApplyDate,
-                    Notes = client.Notes,
-                    Priority = client.Priority,
-                    Address = new Address
+                    Id = ce.Address.Id,
+                    Street = ce.Address.Street,
+                    HouseNumber = ce.Address.HouseNumber,
+                    PostalCode = ce.Address.PostalCode,
+                    City = ce.Address.City,
+                    Country = new Country
                     {
-                        Id = client.Address.Id,
-                        Street = client.Address.Street,
-                        HouseNumber = client.Address.HouseNumber,
-                        PostalCode = client.Address.PostalCode,
-                        City = client.Address.City,
-                        Country = new Country
-                        {
-                            Id = client.Address.Country.Id,
-                            CountryName = client.Address.Country.CountryName,
-                            CountryCode = client.Address.Country.CountryCode
-                        }
+                        Id = ce.Address.Country.Id,
+                        CountryName = ce.Address.Country.CountryName,
+                        CountryCode = ce.Address.Country.CountryCode
                     }
-                };
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Client ID not found");
-            }
+                }
+            });
+            return query.Single(client => client.Id == clientId);
         }
 
         public Client Create(Client client)

@@ -1,5 +1,7 @@
 ﻿using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.Models;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ArtStanisProject.Core.IServices
 {
