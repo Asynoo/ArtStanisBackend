@@ -1,4 +1,5 @@
-﻿using ArtStanisProject.Core.Models;
+﻿using System.Collections.Generic;
+using ArtStanisProject.Core.Models;
 
 namespace ArtStanisProject.Domain.IRepositories
 {

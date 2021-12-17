@@ -1,4 +1,7 @@
-﻿using ArtStanisProject.Core.Filtering;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.IServices;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.Domain.IRepositories;

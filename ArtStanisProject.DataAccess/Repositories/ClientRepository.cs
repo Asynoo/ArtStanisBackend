@@ -1,4 +1,8 @@
-﻿using ArtStanisProject.Core.Filtering;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.Domain.IRepositories;
@@ -90,7 +94,10 @@ namespace ArtStanisProject.DataAccess.Repositories
                     }
                 }
             });
-            return query.Single(client => client.Id == clientId);
+            var foundClient = query.SingleOrDefault(client => client.Id == clientId);
+            if (foundClient == null)
+                throw new ArgumentException("Client ID not found");
+            return foundClient;
         }
 
         public Client Create(Client client)

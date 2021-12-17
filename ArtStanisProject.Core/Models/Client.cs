@@ -1,4 +1,6 @@
-﻿namespace ArtStanisProject.Core.Models
+﻿using System;
+
+namespace ArtStanisProject.Core.Models
 {
     public class Client
     {
