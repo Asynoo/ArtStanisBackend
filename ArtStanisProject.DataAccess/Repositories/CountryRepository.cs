@@ -16,7 +16,8 @@ public class CountryRepository : ICountryRepository
         return _ctx.Countries.Select(entity => new Country
         {
             Id = entity.Id,
-            CountryName = entity.CountryName
+            CountryName = entity.CountryName,
+            CountryCode = entity.CountryCode
         }).ToList();
     }
 }

@@ -26,7 +26,8 @@ namespace ArtStanisProject_Backend.Controllers
                 var list = _service.GetAllCountries()
                     .Select(c => new CountryDto {
                         Id = c.Id,
-                        CountryName = c.CountryName
+                        CountryName = c.CountryName,
+                        CountryCode = c.CountryCode
                     })
                     .ToList();
                 return Ok(list);

@@ -3,6 +3,7 @@ using System;
 using System.Data.Entity;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.DataAccess.Entities;
+using Newtonsoft.Json;
 
 namespace ArtStanisProject.DataAccess
 {
@@ -19,19 +20,15 @@ namespace ArtStanisProject.DataAccess
         {
             _ctx.Database.EnsureDeleted();
             _ctx.Database.EnsureCreated();
-            List<CountryEntity> countries = new()
+            List<CountryEntity> countries;
+            using (var reader = new StreamReader(
+                Directory.GetParent(Directory.GetCurrentDirectory()) 
+                + "/ArtStanisProject.DataAccess/countries.json"))
             {
-                new CountryEntity {Id = 1, CountryName = "Denmark"},
-                new CountryEntity {Id = 2, CountryName = "Slovakia"},
-                new CountryEntity{Id = 3,CountryName = "Poland"},
-                new CountryEntity{Id = 4,CountryName = "Sweden"},
-                new CountryEntity{Id = 5,CountryName = "Norway"},
-                new CountryEntity{Id = 6,CountryName = "Germany"},
-                new CountryEntity{Id = 7,CountryName = "France"},
-                new CountryEntity{Id = 8,CountryName = "Scotland"},
-                new CountryEntity{Id = 9,CountryName = "Ireland"},
-                new CountryEntity{Id = 10,CountryName = "Netherlands"}
-            };
+                var json = reader.ReadToEnd();
+                countries = JsonConvert.DeserializeObject<List<CountryEntity>>(json);
+            }
+
             List<AddressEntity> addresses = new()
             {
                 new AddressEntity
@@ -89,44 +86,42 @@ namespace ArtStanisProject.DataAccess
                     Country = countries[0]
                 }
             };
-            _ctx.Countries.AddRange(countries);
-            _ctx.Addresses.AddRange(addresses);
-            _ctx.Clients.Add(
+            List<ClientEntity> clients = new()
+            {
                 new ClientEntity
                 {
                     Name = "Client1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
                     Address = addresses[1]
-                });
-            _ctx.Clients.Add(
+                },
                 new ClientEntity
                 {
                     Name = "Client2", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                     Address = addresses[2]
-                });
-            _ctx.Clients.Add(
+                },
                 new ClientEntity
                 {
                     Name = "Client3", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
                     Address = addresses[3]
-                });
-            _ctx.Clients.Add(
+                },
                 new ClientEntity
                 {
                     Name = "Client4", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                     Address = addresses[4]
-                });
-            _ctx.Clients.Add(
+                },
                 new ClientEntity
                 {
                     Name = "Client5", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                     Address = addresses[5]
-                });
-            _ctx.Clients.Add(
+                },
                 new ClientEntity
                 {
                     Name = "Client6", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                     Address = addresses[0]
-                });
+                }
+            };
+            _ctx.Countries.AddRange(countries);
+            _ctx.Addresses.AddRange(addresses);
+            _ctx.Clients.AddRange(clients);
             _ctx.SaveChanges();
         }
 
