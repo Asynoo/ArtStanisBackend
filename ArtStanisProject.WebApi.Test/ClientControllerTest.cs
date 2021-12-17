@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.IServices;
 using ArtStanisProject_Backend.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -87,8 +88,9 @@ namespace ArtStanisProject.WebApi.Test
         {
             var service = new Mock<IClientService>();
             var controller = new ClientController(service.Object);
-            controller.GetAll();
-            service.Verify(clientService => clientService.GetAllClients(), Times.Once);
+            Filter filter = new();
+            controller.GetAll(filter);
+            service.Verify(clientService => clientService.GetAllClients(filter), Times.Once);
         }
 
         #endregion

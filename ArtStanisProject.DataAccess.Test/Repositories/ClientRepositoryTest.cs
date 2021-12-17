@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.DataAccess.Repositories;
@@ -127,7 +128,13 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         [Fact]
         public void ClientRepository_GetAllClientEntities_AsAList()
         {
-            Assert.Equal(_expected, _repo.FindAll(), new Comparer());
+            Assert.Equal(_expected, _repo.FindAll(new Filter
+            {
+                Count = 10,
+                Page = 1,
+                SortOrder = null,
+                SortBy = null
+            }), new Comparer());
         }
 
         [Fact]

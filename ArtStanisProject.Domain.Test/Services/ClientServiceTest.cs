@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.IServices;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.Domain.IRepositories;
@@ -36,15 +37,29 @@ namespace ArtStanisProject.Domain.Test.Services
         [Fact]
         public void GetClients_CallsFindAllExactlyOnce()
         {
-            _service.GetAllClients();
-            _mock.Verify(repository => repository.FindAll(), Times.Once);
+            var filter = new Filter
+            {
+                Count = 10,
+                Page = 1,
+                SortOrder = null,
+                SortBy = null
+            };
+            _service.GetAllClients(filter);
+            _mock.Verify(repository => repository.FindAll(filter), Times.Once);
         }
 
         [Fact]
         public void GetClients_ReturnsListOfAllClients()
         {
-            _mock.Setup(r => r.FindAll()).Returns(_expected);
-            var actual = _service.GetAllClients();
+            var filter = new Filter
+            {
+                Count = 10,
+                Page = 1,
+                SortOrder = null,
+                SortBy = null
+            };
+            _mock.Setup(r => r.FindAll(filter)).Returns(_expected);
+            var actual = _service.GetAllClients(filter);
             Assert.Equal(_expected, actual);
         }
 

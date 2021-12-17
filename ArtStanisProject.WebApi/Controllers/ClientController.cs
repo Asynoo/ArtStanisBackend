@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.IServices;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject_Backend.Dtos.Clients;
@@ -24,11 +25,11 @@ namespace ArtStanisProject_Backend.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult<ClientsAllDto> GetAll()
+        public ActionResult<ClientsDto> GetAll([FromQuery] Filter filter)
         {
             try
             {
-                var list = _service.GetAllClients()
+                var list = _service.GetAllClients(filter)
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,
@@ -46,7 +47,8 @@ namespace ArtStanisProject_Backend.Controllers
                             Country = new CountryDto
                             {
                                 Id = c.Address.Country.Id,
-                                CountryName = c.Address.Country.CountryName
+                                CountryName = c.Address.Country.CountryName,
+                                CountryCode = c.Address.Country.CountryCode
                             }
                         }
                     })
@@ -83,15 +85,27 @@ namespace ArtStanisProject_Backend.Controllers
                         Country = new CountryDto
                         {
                             Id = client.Address.Country.Id,
-                            CountryName = client.Address.Country.CountryName
+                            CountryName = client.Address.Country.CountryName,
+                            CountryCode = client.Address.Country.CountryCode
                         }
                     }
                 });
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
-                return BadRequest("Client id not found");
+                return BadRequest(e.Message);
             }
+            catch (Exception)
+            {
+                return StatusCode(500, "Please contact admin");
+            }
+        }
+
+        [Authorize]
+        [HttpGet(nameof(Count))]
+        public ActionResult<int> Count()
+        {
+            return Ok(_service.GetClientCount());
         }
 
         [Authorize]
@@ -117,7 +131,8 @@ namespace ArtStanisProject_Backend.Controllers
                         Country = new Country
                         {
                             Id = clientDto.Address.Country.Id,
-                            CountryName = clientDto.Address.Country.CountryName
+                            CountryName = clientDto.Address.Country.CountryName,
+                            CountryCode = clientDto.Address.Country.CountryCode
                         }
                     }
                 });
@@ -138,7 +153,8 @@ namespace ArtStanisProject_Backend.Controllers
                         Country = new CountryDto
                         {
                             Id = client.Address.Country.Id,
-                            CountryName = client.Address.Country.CountryName
+                            CountryName = client.Address.Country.CountryName,
+                            CountryCode = client.Address.Country.CountryCode
                         }
                     }
                 });
@@ -189,7 +205,8 @@ namespace ArtStanisProject_Backend.Controllers
                         Country = new Country
                         {
                             Id = clientDto.Address.Country.Id,
-                            CountryName = clientDto.Address.Country.CountryName
+                            CountryName = clientDto.Address.Country.CountryName,
+                            CountryCode = clientDto.Address.Country.CountryCode
                         }
                     }
                 });
@@ -210,7 +227,8 @@ namespace ArtStanisProject_Backend.Controllers
                         Country = new CountryDto
                         {
                             Id = client.Address.Country.Id,
-                            CountryName = client.Address.Country.CountryName
+                            CountryName = client.Address.Country.CountryName,
+                            CountryCode = client.Address.Country.CountryCode
                         }
                     }
                 });

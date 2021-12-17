@@ -1,4 +1,5 @@
-﻿using ArtStanisProject.Core.Models;
+﻿using ArtStanisProject.Core.Filtering;
+using ArtStanisProject.Core.Models;
 using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.Domain.IRepositories;
 
@@ -13,9 +14,9 @@ public class ClientRepository : IClientRepository
         _ctx = ctx ?? throw new InvalidDataException("ClientRepository's DbContext cannot be null");
     }
 
-    public List<Client> FindAll()
+    public List<Client> FindAll(Filter filter)
     {
-        return _ctx.Clients.Select(ce => new Client
+        var query = _ctx.Clients.Select(ce => new Client
         {
             Id = ce.Id,
             Name = ce.Name,
@@ -32,10 +33,37 @@ public class ClientRepository : IClientRepository
                 Country = new Country
                 {
                     Id = ce.Address.Country.Id,
-                    CountryName = ce.Address.Country.CountryName
+                    CountryName = ce.Address.Country.CountryName,
+                    CountryCode = ce.Address.Country.CountryCode
                 }
             }
-        }).ToList();
+        });
+        var paging = 
+            query.Skip(filter.Count * (filter.Page - 1)) // skip through pages
+            .Take(filter.Count); //take the exact amount
+            
+        if (string.IsNullOrEmpty(filter.SortOrder) || filter.SortOrder.Equals("asc"))
+        {
+            paging = filter.SortBy switch
+            {
+                "id" => paging.OrderBy(p => p.Id),
+                "name" => paging.OrderBy(p => p.Name),
+                "priority" => paging.OrderBy(p => p.Priority),
+                "applyDate" => paging.OrderBy(p => p.ApplyDate),
+                "country" => paging.OrderBy(p => p.Address.Country.CountryName),
+                _ => paging
+            };
+        }
+        else
+        {
+            paging = filter.SortBy switch
+            {
+                "id" => paging.OrderByDescending(p => p.Id),
+                "name" => paging.OrderByDescending(p => p.Name),
+                _ => paging
+            };
+        }
+        return paging.ToList();
     }
 
     public Client Find(int clientId)
@@ -60,7 +88,8 @@ public class ClientRepository : IClientRepository
                     Country = new Country
                     {
                         Id = client.Address.Country.Id,
-                        CountryName = client.Address.Country.CountryName
+                        CountryName = client.Address.Country.CountryName,
+                        CountryCode = client.Address.Country.CountryCode
                     }
                 }
             };
@@ -125,7 +154,8 @@ public class ClientRepository : IClientRepository
                 Country = new Country
                 {
                     Id = clientEntity.Address.Country.Id,
-                    CountryName = clientEntity.Address.Country.CountryName
+                    CountryName = clientEntity.Address.Country.CountryName,
+                    CountryCode = clientEntity.Address.Country.CountryCode
                 }
             }
         };
@@ -199,9 +229,15 @@ public class ClientRepository : IClientRepository
                 Country = new Country
                 {
                     Id = updatedEntity.Address.Country.Id,
-                    CountryName = updatedEntity.Address.Country.CountryName
+                    CountryName = updatedEntity.Address.Country.CountryName,
+                    CountryCode = updatedEntity.Address.Country.CountryCode
                 }
             }
         };
+    }
+
+    public int Count()
+    {
+        return _ctx.Clients.Count();
     }
 }
