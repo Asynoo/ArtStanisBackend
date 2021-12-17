@@ -2,19 +2,20 @@
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.Domain.IRepositories;
 
-namespace ArtStanisProject.Domain.Services;
-
-public class CountryService : ICountryService
+namespace ArtStanisProject.Domain.Services
 {
-    private readonly ICountryRepository _repo;
-
-    public CountryService(ICountryRepository repo)
+    public class CountryService : ICountryService
     {
-        _repo = repo;
-    }
+        private readonly ICountryRepository _repo;
 
-    public List<Country> GetAllCountries()
-    {
-        return _repo.FindAll();
+        public CountryService(ICountryRepository repo)
+        {
+            _repo = repo;
+        }
+
+        public List<Country> GetAllCountries()
+        {
+            return _repo.FindAll();
+        }
     }
 }

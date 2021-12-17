@@ -1,8 +1,9 @@
 ﻿using ArtStanisProject.Core.Models;
 
-namespace ArtStanisProject.Core.IServices;
-
-public interface ICountryService
+namespace ArtStanisProject.Core.IServices
 {
-    List<Country> GetAllCountries();
+    public interface ICountryService
+    {
+        List<Country> GetAllCountries();
+    }
 }

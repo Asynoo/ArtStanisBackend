@@ -181,13 +181,11 @@ namespace ArtStanisProject_Backend.Controllers
         }
 
         [Authorize]
-        [HttpPut("{id:int}")]
-        public ActionResult<ClientDto> Update(int id, ClientDto clientDto)
+        [HttpPut]
+        public ActionResult<ClientDto> Update(ClientDto clientDto)
         {
             try
             {
-                if (id != clientDto.Id)
-                    return BadRequest("IDs don't match");
                 var client = _service.UpdateClient(new Client
                 {
                     Id = clientDto.Id,

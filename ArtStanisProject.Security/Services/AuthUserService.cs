@@ -2,19 +2,20 @@
 using ArtStanisProject.Security.IServices;
 using ArtStanisProject.Security.Models;
 
-namespace ArtStanisProject.Security.Services;
-
-public class AuthUserService : IAuthUserService
+namespace ArtStanisProject.Security.Services
 {
-    private readonly IAuthUserRepository _repo;
-
-    public AuthUserService(IAuthUserRepository repo)
+    public class AuthUserService : IAuthUserService
     {
-        _repo = repo;
-    }
+        private readonly IAuthUserRepository _repo;
 
-    public AuthUser FindUser(string username)
-    {
-        return _repo.FindUser(username);
+        public AuthUserService(IAuthUserRepository repo)
+        {
+            _repo = repo;
+        }
+
+        public AuthUser FindUser(string username)
+        {
+            return _repo.FindUser(username);
+        }
     }
 }

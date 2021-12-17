@@ -192,17 +192,6 @@ namespace ArtStanisProject.WebApi.Test
             var method = typeof(ClientController).GetMethods().FirstOrDefault(m => "Update".Equals(m.Name));
             Assert.NotNull(method);
         }
-
-        [Fact]
-        public void Update_HasPutHttpAttribute_WithParamIdInt()
-        {
-            var method = typeof(ClientController).GetMethods().FirstOrDefault(m => "Update".Equals(m.Name));
-            var attr = method.GetCustomAttributes()
-                .FirstOrDefault(a => a.GetType().Name.Equals("HttpPutAttribute"));
-            var putAttr = attr as HttpPutAttribute;
-            Assert.Equal("{id:int}", putAttr.Template);
-        }
-
         #endregion
     }
 }

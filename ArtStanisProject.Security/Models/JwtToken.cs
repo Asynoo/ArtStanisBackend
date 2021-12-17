@@ -1,7 +1,8 @@
-﻿namespace ArtStanisProject.Security.Models;
-
-public class JwtToken
+﻿namespace ArtStanisProject.Security.Models
 {
-    public string Jwt { get; set; }
-    public string Message { get; set; }
+    public class JwtToken
+    {
+        public string Jwt { get; set; }
+        public string Message { get; set; }
+    }
 }

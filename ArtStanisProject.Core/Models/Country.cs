@@ -1,8 +1,9 @@
-﻿namespace ArtStanisProject.Core.Models;
-
-public class Country
+﻿namespace ArtStanisProject.Core.Models
 {
-    public int Id { get; set; }
-    public string CountryName { get; set; }
-    public string CountryCode { get; set; }
+    public class Country
+    {
+        public int Id { get; set; }
+        public string CountryName { get; set; }
+        public string CountryCode { get; set; }
+    }
 }
