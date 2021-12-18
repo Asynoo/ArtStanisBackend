@@ -26,6 +26,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 Id = ce.Id,
                 Name = ce.Name,
+                Email = ce.Email,
                 ApplyDate = ce.ApplyDate,
                 Notes = ce.Notes,
                 Priority = ce.Priority,
@@ -53,6 +54,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                 {
                     "id" => paging.OrderBy(p => p.Id),
                     "name" => paging.OrderBy(p => p.Name),
+                    "email" => paging.OrderBy(p => p.Email),
                     "priority" => paging.OrderBy(p => p.Priority),
                     "applyDate" => paging.OrderBy(p => p.ApplyDate),
                     "country" => paging.OrderBy(p => p.Address.Country.CountryName),
@@ -61,8 +63,12 @@ namespace ArtStanisProject.DataAccess.Repositories
             else
                 paging = filter.SortBy switch
                 {
-                    "id" => paging.OrderByDescending(p => p.Id),
-                    "name" => paging.OrderByDescending(p => p.Name),
+                    "id" => paging.OrderBy(p => p.Id),
+                    "name" => paging.OrderBy(p => p.Name),
+                    "email" => paging.OrderBy(p => p.Email),
+                    "priority" => paging.OrderBy(p => p.Priority),
+                    "applyDate" => paging.OrderBy(p => p.ApplyDate),
+                    "country" => paging.OrderBy(p => p.Address.Country.CountryName),
                     _ => paging
                 };
             return paging.ToList();
@@ -74,6 +80,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 Id = ce.Id,
                 Name = ce.Name,
+                Email = ce.Email,
                 ApplyDate = ce.ApplyDate,
                 Notes = ce.Notes,
                 Priority = ce.Priority,
@@ -108,6 +115,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             var clientEntity = new ClientEntity
             {
                 Name = client.Name,
+                Email = client.Email,
                 ApplyDate = client.ApplyDate,
                 Priority = client.Priority,
                 Notes = client.Notes
@@ -139,6 +147,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 Id = createdEntity.Id,
                 Name = createdEntity.Name,
+                Email = createdEntity.Email,
                 ApplyDate = createdEntity.ApplyDate,
                 Priority = createdEntity.Priority,
                 Notes = createdEntity.Notes,
@@ -161,39 +170,57 @@ namespace ArtStanisProject.DataAccess.Repositories
 
         public Client Delete(int clientId)
         {
-            try
+            var query = _ctx.Clients.Select(ce => new ClientEntity
             {
-                var query = _ctx.Clients;
-                var clientEntity = query.Single(ce => ce.Id == clientId);
-                var deletedEntity = _ctx.Clients.Remove(clientEntity).Entity;
-                _ctx.SaveChanges();
-                return new Client
+                Id = ce.Id,
+                Name = ce.Name,
+                Email = ce.Email,
+                ApplyDate = ce.ApplyDate,
+                Notes = ce.Notes,
+                Priority = ce.Priority,
+                Address = new AddressEntity
                 {
-                    Id = deletedEntity.Id,
-                    Name = deletedEntity.Name,
-                    ApplyDate = deletedEntity.ApplyDate,
-                    Notes = deletedEntity.Notes,
-                    Priority = deletedEntity.Priority,
-                    Address = new Address
+                    Id = ce.Address.Id,
+                    Street = ce.Address.Street,
+                    HouseNumber = ce.Address.HouseNumber,
+                    PostalCode = ce.Address.PostalCode,
+                    City = ce.Address.City,
+                    Country = new CountryEntity
                     {
-                        Id = deletedEntity.Address.Id,
-                        Street = deletedEntity.Address.Street,
-                        HouseNumber = deletedEntity.Address.HouseNumber,
-                        PostalCode = deletedEntity.Address.PostalCode,
-                        City = deletedEntity.Address.City,
-                        Country = new Country
-                        {
-                            Id = deletedEntity.Address.Country.Id,
-                            CountryName = deletedEntity.Address.Country.CountryName,
-                            CountryCode = deletedEntity.Address.Country.CountryCode
-                        }
+                        Id = ce.Address.Country.Id,
+                        CountryName = ce.Address.Country.CountryName,
+                        CountryCode = ce.Address.Country.CountryCode
                     }
-                };
-            }
-            catch (Exception e)
-            {
+                }
+            });
+            var clientEntity = query.SingleOrDefault(ce => ce.Id == clientId);
+            if (clientEntity == null) 
                 throw new ArgumentException("Client ID not found");
-            }
+            var deletedEntity = _ctx.Clients.Remove(clientEntity).Entity;
+            _ctx.SaveChanges();
+            return new Client
+            {
+                Id = deletedEntity.Id,
+                Name = deletedEntity.Name,
+                Email = deletedEntity.Email,
+                ApplyDate = deletedEntity.ApplyDate,
+                Notes = deletedEntity.Notes,
+                Priority = deletedEntity.Priority,
+                Address = new Address
+                {
+                    Id = deletedEntity.Address.Id,
+                    Street = deletedEntity.Address.Street,
+                    HouseNumber = deletedEntity.Address.HouseNumber,
+                    PostalCode = deletedEntity.Address.PostalCode,
+                    City = deletedEntity.Address.City,
+                    Country = new Country
+                    {
+                        Id = deletedEntity.Address.Country.Id,
+                        CountryName = deletedEntity.Address.Country.CountryName,
+                        CountryCode = deletedEntity.Address.Country.CountryCode
+                    }
+                }
+            };
         }
 
         public Client Update(Client client)
@@ -207,6 +234,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                 throw new ArgumentException("Country not found");
 
             editedClient.Name = client.Name;
+            editedClient.Email = client.Email;
             editedClient.Notes = client.Notes;
             editedClient.Priority = client.Priority;
             editedClient.ApplyDate = client.ApplyDate;
@@ -236,6 +264,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             {
                 Id = updatedEntity.Id,
                 Name = updatedEntity.Name,
+                Email = updatedEntity.Email,
                 ApplyDate = updatedEntity.ApplyDate,
                 Priority = updatedEntity.Priority,
                 Notes = updatedEntity.Notes,

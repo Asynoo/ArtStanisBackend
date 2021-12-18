@@ -88,7 +88,7 @@ namespace ArtStanisProject.Domain.Test.Services
                 SortOrder = null,
                 SortBy = null
             };
-            var ex = Assert.Throws<ArgumentException>(() => _service.GetAllClients(filter));
+            Assert.Throws<ArgumentException>(() => _service.GetAllClients(filter));
         }
 
         [Fact]

@@ -87,32 +87,56 @@ namespace ArtStanisProject.DataAccess
             {
                 new ClientEntity
                 {
-                    Name = "Client1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Name = "Client1",
+                    Email = "client1@mail.com",
+                    ApplyDate = DateTime.Today,
+                    Priority = 1,
+                    Notes = "none",
                     Address = addresses[1]
                 },
                 new ClientEntity
                 {
-                    Name = "Client2", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Name = "Client2",
+                    Email = "client2@mail.com",
+                    ApplyDate = DateTime.Today,
+                    Priority = 3,
+                    Notes = "none",
                     Address = addresses[2]
                 },
                 new ClientEntity
                 {
-                    Name = "Client3", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Name = "Client3",
+                    Email = "client3@mail.com",
+                    ApplyDate = DateTime.Today,
+                    Priority = 1,
+                    Notes = "none",
                     Address = addresses[3]
                 },
                 new ClientEntity
                 {
-                    Name = "Client4", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Name = "Client4",
+                    Email = "client4@mail.com",
+                    ApplyDate = DateTime.Today,
+                    Priority = 2,
+                    Notes = "none",
                     Address = addresses[4]
                 },
                 new ClientEntity
                 {
-                    Name = "Client5", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Name = "Client5",
+                    Email = "client5@mail.com",
+                    ApplyDate = DateTime.Today,
+                    Priority = 2,
+                    Notes = "none",
                     Address = addresses[5]
                 },
                 new ClientEntity
                 {
-                    Name = "Client6", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Name = "Client6",
+                    Email = "client6@mail.com",
+                    ApplyDate = DateTime.Today,
+                    Priority = 3,
+                    Notes = "none",
                     Address = addresses[0]
                 }
             };

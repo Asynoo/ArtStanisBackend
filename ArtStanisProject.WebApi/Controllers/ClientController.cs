@@ -34,6 +34,7 @@ namespace ArtStanisProject_Backend.Controllers
                     {
                         Id = c.Id,
                         Name = c.Name,
+                        Email = c.Email,
                         ApplyDate = c.ApplyDate,
                         Priority = c.Priority,
                         Notes = c.Notes,
@@ -72,6 +73,7 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = client.Id,
                     Name = client.Name,
+                    Email = client.Email,
                     ApplyDate = client.ApplyDate,
                     Priority = client.Priority,
                     Notes = client.Notes,
@@ -118,6 +120,7 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = clientDto.Id,
                     Name = clientDto.Name,
+                    Email = clientDto.Email,
                     ApplyDate = clientDto.ApplyDate,
                     Priority = clientDto.Priority,
                     Notes = clientDto.Notes,
@@ -140,6 +143,7 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = client.Id,
                     Name = client.Name,
+                    Email = client.Email,
                     ApplyDate = client.ApplyDate,
                     Priority = client.Priority,
                     Notes = client.Notes,
@@ -167,16 +171,42 @@ namespace ArtStanisProject_Backend.Controllers
 
         [Authorize]
         [HttpDelete("{id:int}")]
-        public ActionResult<int> Delete(int id)
+        public ActionResult<ClientDto> Delete(int id)
         {
             try
             {
                 var client = _service.DeleteClient(id);
-                return StatusCode(200, client);
+                return StatusCode(200, new ClientDto
+                {
+                    Id = client.Id,
+                    Name = client.Name,
+                    Email = client.Email,
+                    ApplyDate = client.ApplyDate,
+                    Priority = client.Priority,
+                    Notes = client.Notes,
+                    Address = new ClientAddressDto
+                    {
+                        Id = client.Address.Id,
+                        Street = client.Address.Street,
+                        HouseNumber = client.Address.HouseNumber,
+                        PostalCode = client.Address.PostalCode,
+                        City = client.Address.City,
+                        Country = new CountryDto
+                        {
+                            Id = client.Address.Country.Id,
+                            CountryName = client.Address.Country.CountryName,
+                            CountryCode = client.Address.Country.CountryCode
+                        }
+                    }
+                });
             }
             catch (ArgumentException e)
             {
                 return BadRequest(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Please contact admin!");
             }
         }
 
@@ -190,6 +220,7 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = clientDto.Id,
                     Name = clientDto.Name,
+                    Email = clientDto.Email,
                     ApplyDate = clientDto.ApplyDate,
                     Priority = clientDto.Priority,
                     Notes = clientDto.Notes,
@@ -212,6 +243,7 @@ namespace ArtStanisProject_Backend.Controllers
                 {
                     Id = client.Id,
                     Name = client.Name,
+                    Email = client.Email,
                     ApplyDate = client.ApplyDate,
                     Priority = client.Priority,
                     Notes = client.Notes,

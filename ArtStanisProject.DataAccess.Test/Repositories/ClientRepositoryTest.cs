@@ -25,7 +25,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             {
                 new ClientEntity
                 {
-                    Id = 1, Name = "Client1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Id = 1, Name = "Client1",Email = "SomeEmail1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
                     Address = new AddressEntity
                     {
                         Id = 1,
@@ -42,7 +42,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                 },
                 new ClientEntity
                 {
-                    Id = 2, Name = "Client2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                     Address = new AddressEntity
                     {
                         Id = 2,
@@ -59,7 +59,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                 },
                 new ClientEntity
                 {
-                    Id = 3, Name = "Client3", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Id = 3, Name = "Client3",Email = "SomeEmail3", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                     Address = new AddressEntity
                     {
                         Id = 3,
@@ -187,7 +187,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var clientToCreate = new Client
             {
-                Id = 4,Name = "Client4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Id = 4,Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                 Address = new Address
                 {
                     Id = 4,
@@ -211,7 +211,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var clientToCreate = new Client
             {
-                Id = 4,Name = "Client4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Id = 4,Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                 Address = new Address
                 {
                     Id = 4,
@@ -234,7 +234,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var clientToCreate = new Client
             {
-                Id = 4,Name = "Client4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Id = 4,Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
                 Address = new Address
                 {
                     Id = 3,
@@ -275,7 +275,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var entityToDelete = new Client
             {
-                Id = 2, Name = "Client2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                 Address = new Address
                 {
                     Id = 2,
@@ -321,7 +321,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var entityToUpdate = new Client
             {
-                Id = 4, Name = "Client4", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Id = 4, Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                 Address = new Address
                 {
                     Id = 2,
@@ -345,7 +345,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var entityToUpdate = new Client
             {
-                Id = 2, Name = "Client2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                 Address = new Address
                 {
                     Id = 2,
@@ -369,7 +369,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var entityToUpdate = new Client
             {
-                Id = 2, Name = "Client3", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Id = 2, Name = "Client3",Email = "SomeEmail3", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                 Address = new Address
                 {
                     Id = 2,
@@ -392,7 +392,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var entityToUpdate = new Client
             {
-                Id = 2, Name = "Client2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
                 Address = new Address
                 {
                     Id = 2,
