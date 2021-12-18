@@ -22,7 +22,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                 Id = entity.Id,
                 CountryName = entity.CountryName,
                 CountryCode = entity.CountryCode
-            }).ToList();
+            }).OrderBy(country => country.CountryName).ToList();
         }
     }
 }

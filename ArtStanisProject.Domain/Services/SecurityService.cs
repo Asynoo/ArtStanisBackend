@@ -25,23 +25,20 @@ namespace ArtStanisProject.Domain.Services
         public JwtToken GenerateJwtToken(string username, string password)
         {
             var user = _service.FindUser(username);
-            if (Authenticate(user, password))
+            if (!Authenticate(user, password)) throw new AuthenticationException("Incorrect Username or Password");
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(Configuration["Jwt:Issuer"],
+                Configuration["Jwt:Audience"],
+                null,
+                expires: DateTime.Now.AddMinutes(90),
+                signingCredentials: credentials);
+            return new JwtToken
             {
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes((string) Configuration["Jwt:Secret"]));
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(Configuration["Jwt:Issuer"],
-                    Configuration["Jwt:Audience"],
-                    null,
-                    expires: DateTime.Now.AddMinutes(90),
-                    signingCredentials: credentials);
-                return new JwtToken
-                {
-                    Jwt = new JwtSecurityTokenHandler().WriteToken(token),
-                    Message = "Very nice!"
-                };
-            }
+                Jwt = new JwtSecurityTokenHandler().WriteToken(token),
+                Message = "Very nice!"
+            };
 
-            throw new AuthenticationException("Incorrect Username or Password");
         }
 
         public string HashedPassword(string plainTextPassword, byte[] userSalt)
