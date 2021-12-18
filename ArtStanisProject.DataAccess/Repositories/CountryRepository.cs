@@ -3,25 +3,24 @@ using System.Linq;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.Domain.IRepositories;
 
-namespace ArtStanisProject.DataAccess.Repositories
+namespace ArtStanisProject.DataAccess.Repositories;
+
+public class CountryRepository : ICountryRepository
 {
-    public class CountryRepository : ICountryRepository
+    private readonly MainDbContext _ctx;
+
+    public CountryRepository(MainDbContext ctx)
     {
-        private readonly MainDbContext _ctx;
+        _ctx = ctx;
+    }
 
-        public CountryRepository(MainDbContext ctx)
+    public List<Country> FindAll()
+    {
+        return _ctx.Countries.Select(entity => new Country
         {
-            _ctx = ctx;
-        }
-
-        public List<Country> FindAll()
-        {
-            return _ctx.Countries.Select(entity => new Country
-            {
-                Id = entity.Id,
-                CountryName = entity.CountryName,
-                CountryCode = entity.CountryCode
-            }).ToList();
-        }
+            Id = entity.Id,
+            CountryName = entity.CountryName,
+            CountryCode = entity.CountryCode
+        }).ToList();
     }
 }

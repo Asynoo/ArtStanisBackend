@@ -12,6 +12,17 @@ namespace ArtStanisProject.WebApi.Test
 {
     public class ClientControllerTest
     {
+        #region UpdateMethod
+
+        [Fact]
+        public void ClientController_HasUpdateMethod()
+        {
+            var method = typeof(ClientController).GetMethods().FirstOrDefault(m => "Update".Equals(m.Name));
+            Assert.NotNull(method);
+        }
+
+        #endregion
+
         #region ControllerInit
 
         [Fact]
@@ -182,16 +193,6 @@ namespace ArtStanisProject.WebApi.Test
             service.Verify(clientService => clientService.DeleteClient(1), Times.Once);
         }
 
-        #endregion
-
-        #region UpdateMethod
-
-        [Fact]
-        public void ClientController_HasUpdateMethod()
-        {
-            var method = typeof(ClientController).GetMethods().FirstOrDefault(m => "Update".Equals(m.Name));
-            Assert.NotNull(method);
-        }
         #endregion
     }
 }

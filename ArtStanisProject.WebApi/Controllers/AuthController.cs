@@ -1,6 +1,6 @@
 using System;
 using System.Security.Authentication;
-using ArtStanisProject.Security.IServices;
+using ArtStanisProject.Core.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

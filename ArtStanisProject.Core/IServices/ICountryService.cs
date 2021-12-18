@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using ArtStanisProject.Core.Models;
 
-namespace ArtStanisProject.Core.IServices
+namespace ArtStanisProject.Core.IServices;
+
+public interface ICountryService
 {
-    public interface ICountryService
-    {
-        List<Country> GetAllCountries();
-    }
+    List<Country> GetAllCountries();
 }

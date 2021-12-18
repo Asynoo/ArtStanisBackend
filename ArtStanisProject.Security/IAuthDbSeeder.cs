@@ -1,8 +1,7 @@
-﻿namespace ArtStanisProject.Security
+﻿namespace ArtStanisProject.Security;
+
+public interface IAuthDbSeeder
 {
-    public interface IAuthDbSeeder
-    {
-        void SeedDevelopment();
-        void SeedProduction();
-    }
+    void SeedDevelopment();
+    void SeedProduction();
 }

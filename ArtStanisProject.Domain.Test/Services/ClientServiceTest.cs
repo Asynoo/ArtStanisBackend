@@ -12,9 +12,9 @@ namespace ArtStanisProject.Domain.Test.Services
 {
     public class ClientServiceTest
     {
-        private List<Client> _expected;
         private readonly Mock<IClientRepository> _mock;
         private readonly ClientService _service;
+        private List<Client> _expected;
 
         public ClientServiceTest()
         {
