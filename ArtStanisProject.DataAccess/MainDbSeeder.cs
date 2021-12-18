@@ -31,64 +31,64 @@ namespace ArtStanisProject.DataAccess
                 new AddressEntity
                 {
                     Id = 1,
-                    Street = "Rolfsgade",
-                    HouseNumber = 11,
-                    PostalCode = 6700,
-                    City = "Esbjerg",
-                    Country = countries[1]
+                    Street = "Stuhrsvej",
+                    HouseNumber = 26,
+                    PostalCode = 9990,
+                    City = "Skagen",
+                    Country = countries[20]
                 },
                 new AddressEntity
                 {
                     Id = 2,
-                    Street = "street2",
-                    HouseNumber = 11,
-                    PostalCode = 6700,
-                    City = "Esbjerg",
-                    Country = countries[2]
+                    Street = "Germaniastrasse",
+                    HouseNumber = 2,
+                    PostalCode = 8006,
+                    City = "Zürich",
+                    Country = countries[117]
                 },
                 new AddressEntity
                 {
                     Id = 3,
-                    Street = "Street3",
-                    HouseNumber = 11,
-                    PostalCode = 6700,
-                    City = "Esbjerg",
-                    Country = countries[3]
+                    Street = "Duntzfelts Alle",
+                    HouseNumber = 26,
+                    PostalCode = 2900,
+                    City = "Hellerup",
+                    Country = countries[208]
                 },
                 new AddressEntity
                 {
                     Id = 4,
-                    Street = "Street4",
-                    HouseNumber = 11,
-                    PostalCode = 6700,
-                    City = "Esbjerg",
-                    Country = countries[4]
+                    Street = "Steinsvikskrenten",
+                    HouseNumber = 97,
+                    PostalCode = 5239,
+                    City = "Rådal",
+                    Country = countries[12]
                 },
                 new AddressEntity
                 {
                     Id = 5,
-                    Street = "street5",
-                    HouseNumber = 11,
-                    PostalCode = 6700,
-                    City = "Esbjerg",
-                    Country = countries[5]
+                    Street = "Geerling",
+                    HouseNumber = 24,
+                    PostalCode = 1613 ,
+                    City = "PG Grootebroek",
+                    Country = countries[2]
                 },
                 new AddressEntity
                 {
                     Id = 6,
-                    Street = "street6",
-                    HouseNumber = 11,
-                    PostalCode = 6700,
-                    City = "Esbjerg",
-                    Country = countries[0]
+                    Street = "Klosterstraße",
+                    HouseNumber = 13,
+                    PostalCode = 24534,
+                    City = "Neumünster",
+                    Country = countries[232]
                 }
             };
             List<ClientEntity> clients = new()
             {
                 new ClientEntity
                 {
-                    Name = "Client1",
-                    Email = "client1@mail.com",
+                    Name = "Lars Pedersen",
+                    Email = "l.pedersen1@gmail.com",
                     ApplyDate = DateTime.Today,
                     Priority = 1,
                     Notes = "none",
@@ -96,8 +96,8 @@ namespace ArtStanisProject.DataAccess
                 },
                 new ClientEntity
                 {
-                    Name = "Client2",
-                    Email = "client2@mail.com",
+                    Name = "Susanne Rosendahl",
+                    Email = "sus.ros.19@live.dk",
                     ApplyDate = DateTime.Today,
                     Priority = 3,
                     Notes = "none",
@@ -105,8 +105,8 @@ namespace ArtStanisProject.DataAccess
                 },
                 new ClientEntity
                 {
-                    Name = "Client3",
-                    Email = "client3@mail.com",
+                    Name = "Pernille Fryd",
+                    Email = "Sweetwolf1989@yahoo.dk",
                     ApplyDate = DateTime.Today,
                     Priority = 1,
                     Notes = "none",
@@ -114,8 +114,8 @@ namespace ArtStanisProject.DataAccess
                 },
                 new ClientEntity
                 {
-                    Name = "Client4",
-                    Email = "client4@mail.com",
+                    Name = "Claus Perrson",
+                    Email = "Perrson.Claus@outlook.com",
                     ApplyDate = DateTime.Today,
                     Priority = 2,
                     Notes = "none",
@@ -123,8 +123,8 @@ namespace ArtStanisProject.DataAccess
                 },
                 new ClientEntity
                 {
-                    Name = "Client5",
-                    Email = "client5@mail.com",
+                    Name = "Heinrik Müller",
+                    Email = "Heinrik.W.M@hotmail.de",
                     ApplyDate = DateTime.Today,
                     Priority = 2,
                     Notes = "none",
@@ -132,8 +132,8 @@ namespace ArtStanisProject.DataAccess
                 },
                 new ClientEntity
                 {
-                    Name = "Client6",
-                    Email = "client6@mail.com",
+                    Name = "Karoline Swartz",
+                    Email = "Karo1991@gmail.com",
                     ApplyDate = DateTime.Today,
                     Priority = 3,
                     Notes = "none",
