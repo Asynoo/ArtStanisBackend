@@ -1,4 +1,4 @@
-﻿namespace ArtStanisProject.DataAccess.Entities
+namespace ArtStanisProject.DataAccess.Entities
 {
     public class CountryEntity
     {

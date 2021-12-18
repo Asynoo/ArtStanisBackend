@@ -1,4 +1,4 @@
-﻿namespace ArtStanisProject.Core.Models
+namespace ArtStanisProject.Core.Models
 {
     public class Country
     {
