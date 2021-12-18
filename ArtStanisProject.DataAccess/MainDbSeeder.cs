@@ -70,7 +70,7 @@ namespace ArtStanisProject.DataAccess
                     Street = "Geerling",
                     HouseNumber = 24,
                     PostalCode = 1613 ,
-                    City = "PG Grootebroek",
+                    City = "Grootebroek",
                     Country = countries[1]
                 },
                 new AddressEntity
