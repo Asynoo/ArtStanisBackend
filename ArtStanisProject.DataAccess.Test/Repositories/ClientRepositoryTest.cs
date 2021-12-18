@@ -299,6 +299,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             _repo.Delete(3);
             Assert.Equal(2,_repo.Count());
         }
+        
         #endregion
 
         #region UpdateMethod

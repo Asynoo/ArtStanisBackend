@@ -170,29 +170,7 @@ namespace ArtStanisProject.DataAccess.Repositories
 
         public Client Delete(int clientId)
         {
-            var query = _ctx.Clients.Select(ce => new ClientEntity
-            {
-                Id = ce.Id,
-                Name = ce.Name,
-                Email = ce.Email,
-                ApplyDate = ce.ApplyDate,
-                Notes = ce.Notes,
-                Priority = ce.Priority,
-                Address = new AddressEntity
-                {
-                    Id = ce.Address.Id,
-                    Street = ce.Address.Street,
-                    HouseNumber = ce.Address.HouseNumber,
-                    PostalCode = ce.Address.PostalCode,
-                    City = ce.Address.City,
-                    Country = new CountryEntity
-                    {
-                        Id = ce.Address.Country.Id,
-                        CountryName = ce.Address.Country.CountryName,
-                        CountryCode = ce.Address.Country.CountryCode
-                    }
-                }
-            });
+            var query = _ctx.Clients.ToList();
             var clientEntity = query.SingleOrDefault(ce => ce.Id == clientId);
             if (clientEntity == null) 
                 throw new ArgumentException("Client ID not found");
@@ -208,16 +186,16 @@ namespace ArtStanisProject.DataAccess.Repositories
                 Priority = deletedEntity.Priority,
                 Address = new Address
                 {
-                    Id = deletedEntity.Address.Id,
-                    Street = deletedEntity.Address.Street,
-                    HouseNumber = deletedEntity.Address.HouseNumber,
-                    PostalCode = deletedEntity.Address.PostalCode,
-                    City = deletedEntity.Address.City,
+                    Id = clientEntity.Address.Id,
+                    Street = clientEntity.Address.Street,
+                    HouseNumber = clientEntity.Address.HouseNumber,
+                    PostalCode = clientEntity.Address.PostalCode,
+                    City = clientEntity.Address.City,
                     Country = new Country
                     {
-                        Id = deletedEntity.Address.Country.Id,
-                        CountryName = deletedEntity.Address.Country.CountryName,
-                        CountryCode = deletedEntity.Address.Country.CountryCode
+                        Id = clientEntity.Address.Country.Id,
+                        CountryName = clientEntity.Address.Country.CountryName,
+                        CountryCode = clientEntity.Address.Country.CountryCode
                     }
                 }
             };
