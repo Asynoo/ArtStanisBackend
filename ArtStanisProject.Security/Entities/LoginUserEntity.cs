@@ -1,9 +1,10 @@
-﻿namespace ArtStanisProject.Security.Entities;
-
-public class LoginUserEntity
+﻿namespace ArtStanisProject.Security.Entities
 {
-    public int Id { get; set; }
-    public string Username { get; set; }
-    public string HashedPassword { get; set; }
-    public string Salt { get; set; }
+    public class LoginUserEntity
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string HashedPassword { get; set; }
+        public string Salt { get; set; }
+    }
 }

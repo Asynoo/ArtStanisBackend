@@ -1,26 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.Domain.IRepositories;
 
-namespace ArtStanisProject.DataAccess.Repositories;
-
-public class CountryRepository : ICountryRepository
+namespace ArtStanisProject.DataAccess.Repositories
 {
-    private readonly MainDbContext _ctx;
-
-    public CountryRepository(MainDbContext ctx)
+    public class CountryRepository : ICountryRepository
     {
-        _ctx = ctx;
-    }
+        private readonly MainDbContext _ctx;
 
-    public List<Country> FindAll()
-    {
-        return _ctx.Countries.Select(entity => new Country
+        public CountryRepository(MainDbContext ctx)
         {
-            Id = entity.Id,
-            CountryName = entity.CountryName,
-            CountryCode = entity.CountryCode
-        }).ToList();
+            _ctx = ctx ?? throw new InvalidDataException("CountryRepository's DbContext cannot be null");
+        }
+
+        public List<Country> FindAll()
+        {
+            return _ctx.Countries.Select(entity => new Country
+            {
+                Id = entity.Id,
+                CountryName = entity.CountryName,
+                CountryCode = entity.CountryCode
+            }).ToList();
+        }
     }
 }

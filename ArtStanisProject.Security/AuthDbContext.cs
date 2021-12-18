@@ -1,13 +1,14 @@
 ﻿using ArtStanisProject.Security.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArtStanisProject.Security;
-
-public class AuthDbContext : DbContext
+namespace ArtStanisProject.Security
 {
-    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+    public class AuthDbContext : DbContext
     {
-    }
+        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+        {
+        }
 
-    public DbSet<LoginUserEntity> LoginUsers { get; set; }
+        public DbSet<LoginUserEntity> LoginUsers { get; set; }
+    }
 }

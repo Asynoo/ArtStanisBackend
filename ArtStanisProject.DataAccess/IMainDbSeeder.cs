@@ -1,7 +1,8 @@
-﻿namespace ArtStanisProject.DataAccess;
-
-public interface IMainDbSeeder
+﻿namespace ArtStanisProject.DataAccess
 {
-    void SeedDevelopment();
-    void SeedProduction();
+    public interface IMainDbSeeder
+    {
+        void SeedDevelopment();
+        void SeedProduction();
+    }
 }

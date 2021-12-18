@@ -1,8 +1,9 @@
 ﻿using ArtStanisProject.Core.Models;
 
-namespace ArtStanisProject.Core.IServices;
-
-public interface IAuthUserService
+namespace ArtStanisProject.Core.IServices
 {
-    AuthUser FindUser(string username);
+    public interface IAuthUserService
+    {
+        AuthUser FindUser(string username);
+    }
 }

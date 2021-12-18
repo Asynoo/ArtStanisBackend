@@ -1,9 +1,10 @@
 ﻿using ArtStanisProject.Core.Models;
 
-namespace ArtStanisProject.Core.IServices;
-
-public interface ISecurityService
+namespace ArtStanisProject.Core.IServices
 {
-    JwtToken GenerateJwtToken(string username, string password);
-    string HashedPassword(string plainTextPassword, byte[] userSalt);
+    public interface ISecurityService
+    {
+        JwtToken GenerateJwtToken(string username, string password);
+        string HashedPassword(string plainTextPassword, byte[] userSalt);
+    }
 }
