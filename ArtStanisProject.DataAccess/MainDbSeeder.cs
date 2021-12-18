@@ -35,7 +35,7 @@ namespace ArtStanisProject.DataAccess
                     HouseNumber = 26,
                     PostalCode = 9990,
                     City = "Skagen",
-                    Country = countries[20]
+                    Country = countries[58]
                 },
                 new AddressEntity
                 {
@@ -44,7 +44,7 @@ namespace ArtStanisProject.DataAccess
                     HouseNumber = 2,
                     PostalCode = 8006,
                     City = "Zürich",
-                    Country = countries[117]
+                    Country = countries[208]
                 },
                 new AddressEntity
                 {
@@ -53,7 +53,7 @@ namespace ArtStanisProject.DataAccess
                     HouseNumber = 26,
                     PostalCode = 2900,
                     City = "Hellerup",
-                    Country = countries[208]
+                    Country = countries[58]
                 },
                 new AddressEntity
                 {
@@ -62,7 +62,7 @@ namespace ArtStanisProject.DataAccess
                     HouseNumber = 97,
                     PostalCode = 5239,
                     City = "Rådal",
-                    Country = countries[12]
+                    Country = countries[163]
                 },
                 new AddressEntity
                 {
@@ -71,7 +71,7 @@ namespace ArtStanisProject.DataAccess
                     HouseNumber = 24,
                     PostalCode = 1613 ,
                     City = "PG Grootebroek",
-                    Country = countries[2]
+                    Country = countries[153]
                 },
                 new AddressEntity
                 {
@@ -80,7 +80,7 @@ namespace ArtStanisProject.DataAccess
                     HouseNumber = 13,
                     PostalCode = 24534,
                     City = "Neumünster",
-                    Country = countries[232]
+                    Country = countries[80]
                 }
             };
             List<ClientEntity> clients = new()
