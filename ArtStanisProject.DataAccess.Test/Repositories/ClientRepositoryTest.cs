@@ -271,26 +271,10 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         }
 
         [Fact]
-        public void ClientRepository_DeleteClientEntity_ReturnsCorrectEntity()
+        public void ClientRepository_DeleteClientEntity_ReturnsCorrectEntityId()
         {
-            var entityToDelete = new Client
-            {
-                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
-                Address = new Address
-                {
-                    Id = 2,
-                    Street = "SomeStreet2",
-                    HouseNumber = 2,
-                    PostalCode = 1002,
-                    City = "SomeCity2",
-                    Country = new Country
-                    {
-                        Id = 2,
-                        CountryName = "SomeCountry2"
-                    }
-                }
-            };
-            Assert.Equal(entityToDelete.Id,_repo.Delete(entityToDelete.Id));
+            const int entityToDeleteId = 2;
+            Assert.Equal(entityToDeleteId,_repo.Delete(entityToDeleteId));
         }
 
         [Fact]
