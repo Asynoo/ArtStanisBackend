@@ -1,8 +1,7 @@
-﻿using ArtStanisProject.Security.Models;
+﻿using ArtStanisProject.Core.Models;
 
-namespace ArtStanisProject.Security.IServices
+namespace ArtStanisProject.Core.IServices
 {
-
     public interface ISecurityService
     {
         JwtToken GenerateJwtToken(string username, string password);

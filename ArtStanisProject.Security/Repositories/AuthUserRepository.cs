@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Text;
-using ArtStanisProject.Security.IRepositories;
-using ArtStanisProject.Security.Models;
+using ArtStanisProject.Core.Models;
+using ArtStanisProject.Domain.IRepositories;
 
 namespace ArtStanisProject.Security.Repositories
 {
-
     public class AuthUserRepository : IAuthUserRepository
     {
         private readonly AuthDbContext _ctx;
@@ -25,7 +24,7 @@ namespace ArtStanisProject.Security.Repositories
                 Id = entity.Id,
                 Username = entity.Username,
                 HashedPassword = entity.HashedPassword,
-                Salt = Encoding.ASCII.GetBytes(entity.Salt)
+                Salt = entity.Salt
             };
         }
     }

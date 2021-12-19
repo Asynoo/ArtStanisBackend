@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ArtStanisProject.DataAccess\ArtStanisProject.DataAccess.csproj" />
+        <ProjectReference Include="..\ArtStanisProject.DataAccess\ArtStanisProject.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

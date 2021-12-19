@@ -1,6 +1,5 @@
-﻿namespace ArtStanisProject.Security.Models
+﻿namespace ArtStanisProject.Core.Models
 {
-
     public class AuthUser
     {
         public int Id { get; set; }

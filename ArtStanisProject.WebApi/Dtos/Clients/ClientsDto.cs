@@ -2,7 +2,7 @@
 
 namespace ArtStanisProject_Backend.Dtos.Clients
 {
-    public class ClientsAllDto
+    public class ClientsDto
     {
         public List<ClientDto> ClientDtos { get; set; }
     }

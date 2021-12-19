@@ -2,41 +2,77 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ArtStanisProject.Core.Filtering;
 using ArtStanisProject.Core.Models;
 using ArtStanisProject.DataAccess.Entities;
 using ArtStanisProject.DataAccess.Repositories;
 using ArtStanisProject.Domain.IRepositories;
 using EntityFrameworkCore.Testing.Moq;
-using Moq;
 using Xunit;
 
 namespace ArtStanisProject.DataAccess.Test.Repositories
 {
     public class ClientRepositoryTest
     {
+        private readonly List<Client> _expected;
         private readonly ClientRepository _repo;
-        private readonly List<Client> _expected;       
-        
+
         public ClientRepositoryTest()
         {
-            MainDbContext mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
+            var mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
             _repo = new ClientRepository(mockedDbContext);
             List<ClientEntity> entities = new()
             {
                 new ClientEntity
                 {
-                    Id = 1, Name = "Client1", Address = "test1",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 1, Notes = "none"
+                    Id = 1, Name = "Client1",Email = "SomeEmail1", ApplyDate = DateTime.Today, Priority = 1, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 1,
+                        Street = "SomeStreet1",
+                        HouseNumber = 1,
+                        PostalCode = 1001,
+                        City = "SomeCity",
+                        Country = new CountryEntity
+                        {
+                            Id = 1,
+                            CountryName = "SomeCountry1"
+                        }
+                    }
                 },
                 new ClientEntity
                 {
-                    Id = 2, Name = "Client2", Address = "test2",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
+                    Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 2,
+                        Street = "SomeStreet2",
+                        HouseNumber = 2,
+                        PostalCode = 1002,
+                        City = "SomeCity2",
+                        Country = new CountryEntity
+                        {
+                            Id = 2,
+                            CountryName = "SomeCountry2"
+                        }
+                    }
                 },
                 new ClientEntity
                 {
-                    Id = 3, Name = "Client3", Address = "test3",
-                    Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+                    Id = 3, Name = "Client3",Email = "SomeEmail3", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                    Address = new AddressEntity
+                    {
+                        Id = 3,
+                        Street = "SomeStreet3",
+                        HouseNumber = 3,
+                        PostalCode = 1003,
+                        City = "SomeCity3",
+                        Country = new CountryEntity
+                        {
+                            Id = 3,
+                            CountryName = "SomeCountry3"
+                        }
+                    }
                 }
             };
             mockedDbContext.Set<ClientEntity>().AddRange(entities);
@@ -45,11 +81,22 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
             {
                 Id = ce.Id,
                 Name = ce.Name,
-                Address = ce.Address,
-                Country = ce.Country,
                 ApplyDate = ce.ApplyDate,
                 Priority = ce.Priority,
-                Notes = ce.Notes
+                Notes = ce.Notes,
+                Address = new Address
+                {
+                    Id = ce.Address.Id,
+                    Street = ce.Address.Street,
+                    HouseNumber = ce.Address.HouseNumber,
+                    PostalCode = ce.Address.PostalCode,
+                    City = ce.Address.City,
+                    Country = new Country
+                    {
+                        Id = ce.Address.Country.Id,
+                        CountryName = ce.Address.Country.CountryName
+                    }
+                }
             }).ToList();
         }
 
@@ -66,12 +113,12 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             Assert.Throws<InvalidDataException>(() => new ClientRepository(null));
         }
-        
+
         [Fact]
         public void ClientRepository_WithNullDbContextThrowsInvalidDataExceptionWithMessage()
         {
             var ex = Assert.Throws<InvalidDataException>(() => new ClientRepository(null));
-            Assert.Equal("ClientRepository's DbContext cannot be null",ex.Message);
+            Assert.Equal("ClientRepository's DbContext cannot be null", ex.Message);
         }
 
         #endregion
@@ -81,7 +128,20 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         [Fact]
         public void ClientRepository_GetAllClientEntities_AsAList()
         {
-            Assert.Equal(_expected,_repo.FindAll(), new Comparer());
+            Assert.Equal(_expected, _repo.FindAll(new Filter
+            {
+                Count = 10,
+                Page = 1,
+                SortOrder = null,
+                SortBy = null
+            }), new ClientComparer());
+        }
+        
+        [Fact]
+        public void ClientRepository_GetAllClientEntitiesWithNoFilter_ThrowsArgumentExceptionWithMessage()
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _repo.FindAll(null));
+            Assert.Equal("This method requires a filter!",ex.Message);
         }
 
         [Fact]
@@ -89,20 +149,20 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             var actualClient = _repo.Find(2);
             var expectedClient = _expected.Single(client => client.Id == 2);
-            Assert.Equal(expectedClient,actualClient, new Comparer());
+            Assert.Equal(expectedClient, actualClient, new ClientComparer());
         }
-        
+
         [Fact]
         public void ClientRepository_GetClientEntityWithIncorrectId_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => _repo.Find(0));
         }
-        
+
         [Fact]
         public void ClientRepository_GetClientEntityWithIncorrectId_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Find(0));
-            Assert.Equal("Client ID not found",ex.Message);
+            Assert.Equal("Client ID not found", ex.Message);
         }
 
         #endregion
@@ -114,48 +174,132 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             Assert.Throws<ArgumentException>(() => _repo.Create(null));
         }
-        
+
         [Fact]
         public void ClientRepository_CreateClientEntityNoParam_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Create(null));
-            Assert.Equal("Client cannot be null",ex.Message);
+            Assert.Equal("Client cannot be null", ex.Message);
+        }
+        
+        [Fact]
+        public void ClientRepository_CreateClientEntityWithNonexistentCountry_ThrowsArgumentExceptionWithMessage()
+        {
+            var clientToCreate = new Client
+            {
+                Id = 4,Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Address = new Address
+                {
+                    Id = 4,
+                    Street = "SomeStreet4",
+                    HouseNumber = 4,
+                    PostalCode = 1004,
+                    City = "SomeCity",
+                    Country = new Country
+                    {
+                        Id = 5,
+                        CountryName = "SomeCountry5"
+                    }
+                }
+            };
+            var ex = Assert.Throws<ArgumentException>(() => _repo.Create(clientToCreate));
+            Assert.Equal("Country not found", ex.Message);
         }
 
         [Fact]
-        public void ClientRepository_CreateClientEntity_ReturnsClientWIthCorrectId()
+        public void ClientRepository_CreateClientEntity_ReturnsCorrectClient()
         {
-            var client = new Client
+            var clientToCreate = new Client
             {
-                Name = "Client4", Address = "test4",
-                Country = "Denmark", ApplyDate = DateTime.Today, Priority = 3, Notes = "none"
+                Id = 4,Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Address = new Address
+                {
+                    Id = 4,
+                    Street = "SomeStreet4",
+                    HouseNumber = 4,
+                    PostalCode = 1004,
+                    City = "SomeCity",
+                    Country = new Country
+                    {
+                        Id = 3,
+                        CountryName = "SomeCountry"
+                    }
+                }
             };
-            Assert.Equal(4,_repo.Create(client).Id);
+            Assert.Equal(clientToCreate, _repo.Create(clientToCreate), new ClientComparer());
+        }
+        
+        [Fact]
+        public void ClientRepository_CreateClientEntity_ClientCountIsIncreased()
+        {
+            var clientToCreate = new Client
+            {
+                Id = 4,Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 3, Notes = "none",
+                Address = new Address
+                {
+                    Id = 3,
+                    Street = "SomeStreet3",
+                    HouseNumber = 3,
+                    PostalCode = 1003,
+                    City = "SomeCity3",
+                    Country = new Country
+                    {
+                        Id = 3,
+                        CountryName = "SomeCountry"
+                    }
+                }
+            };
+            _repo.Create(clientToCreate);
+            Assert.Equal(4,_repo.Count());
         }
 
         #endregion
 
         #region DeleteMethod
-        
+
         [Fact]
         public void ClientRepository_DeleteClientEntityWithIncorrectId_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => _repo.Delete(0));
         }
-        
+
         [Fact]
         public void ClientRepository_DeleteClientEntityWithIncorrectId_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Delete(0));
-            Assert.Equal("Client ID not found",ex.Message);
+            Assert.Equal("Client ID not found", ex.Message);
         }
 
         [Fact]
-        public void ClientRepository_DeleteClientEntity_ReturnsClientWIthCorrectId()
+        public void ClientRepository_DeleteClientEntity_ReturnsCorrectEntity()
         {
-            Assert.Equal(2,_repo.Delete(2).Id);
+            var entityToDelete = new Client
+            {
+                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Address = new Address
+                {
+                    Id = 2,
+                    Street = "SomeStreet2",
+                    HouseNumber = 2,
+                    PostalCode = 1002,
+                    City = "SomeCity2",
+                    Country = new Country
+                    {
+                        Id = 2,
+                        CountryName = "SomeCountry2"
+                    }
+                }
+            };
+            Assert.Equal(entityToDelete.Id,_repo.Delete(entityToDelete.Id));
         }
 
+        [Fact]
+        public void ClientRepository_DeleteClientEntity_ClientCountIsReduced()
+        {
+            _repo.Delete(3);
+            Assert.Equal(2,_repo.Count());
+        }
+        
         #endregion
 
         #region UpdateMethod
@@ -165,45 +309,108 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
         {
             Assert.Throws<ArgumentException>(() => _repo.Update(null));
         }
-        
+
         [Fact]
         public void ClientRepository_UpdateClientEntityNoParam_ThrowsArgumentExceptionWithMessage()
         {
             var ex = Assert.Throws<ArgumentException>(() => _repo.Update(null));
-            Assert.Equal("Client cannot be null",ex.Message);
+            Assert.Equal("Client cannot be null", ex.Message);
         }
         
-        // This don't work and I have no clue why
+        [Fact]
+        public void ClientRepository_UpdateNonexistentEntity_ThrowsArgumentExceptionWithMessage()
+        {
+            var entityToUpdate = new Client
+            {
+                Id = 4, Name = "Client4",Email = "SomeEmail4", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Address = new Address
+                {
+                    Id = 2,
+                    Street = "SomeStreet2",
+                    HouseNumber = 2,
+                    PostalCode = 1002,
+                    City = "SomeCity3",
+                    Country = new Country
+                    {
+                        Id = 2,
+                        CountryName = "SomeCountry2"
+                    }
+                }
+            };
+            var ex = Assert.Throws<ArgumentException>(() => _repo.Update(entityToUpdate));
+            Assert.Equal("Client with the specified ID does not exist", ex.Message);
+        }
         
-        // [Fact]
-        // public void ClientRepository_UpdateClientEntity_ReturnsClientWIthCorrectId()
-        // {
-        //     var client = new Client
-        //     {
-        //         Id = 2, Name = "Client2", Address = "testEdit",
-        //         Country = "Denmark", ApplyDate = DateTime.Today, Priority = 2, Notes = "none"
-        //     };
-        //     Assert.Equal(2,_repo.Update(client).Id);
-        // }
+        [Fact]
+        public void ClientRepository_UpdateEntityWithNonexistentCountry_ThrowsArgumentExceptionWithMessage()
+        {
+            var entityToUpdate = new Client
+            {
+                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Address = new Address
+                {
+                    Id = 2,
+                    Street = "SomeStreet2",
+                    HouseNumber = 2,
+                    PostalCode = 1002,
+                    City = "SomeCity3",
+                    Country = new Country
+                    {
+                        Id = 5,
+                        CountryName = "SomeCountry5"
+                    }
+                }
+            };
+            var ex = Assert.Throws<ArgumentException>(() => _repo.Update(entityToUpdate));
+            Assert.Equal("Country not found", ex.Message);
+        }
+        
+        [Fact]
+        public void ClientRepository_UpdateClientEntity_ReturnsCorrectEntity()
+        {
+            var entityToUpdate = new Client
+            {
+                Id = 2, Name = "Client3",Email = "SomeEmail3", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Address = new Address
+                {
+                    Id = 2,
+                    Street = "SomeStreet2",
+                    HouseNumber = 2,
+                    PostalCode = 1002,
+                    City = "SomeCity2",
+                    Country = new Country
+                    {
+                        Id = 2,
+                        CountryName = "SomeCountry2"
+                    }
+                }
+            };
+            Assert.Equal(entityToUpdate,_repo.Update(entityToUpdate),new ClientComparer());
+        }
 
+        [Fact]
+        public void ClientRepository_UpdateClientEntity_ClientCountIsUnaffected()
+        {
+            var entityToUpdate = new Client
+            {
+                Id = 2, Name = "Client2",Email = "SomeEmail2", ApplyDate = DateTime.Today, Priority = 2, Notes = "none",
+                Address = new Address
+                {
+                    Id = 2,
+                    Street = "SomeStreet2",
+                    HouseNumber = 2,
+                    PostalCode = 1002,
+                    City = "SomeCity3",
+                    Country = new Country
+                    {
+                        Id = 2,
+                        CountryName = "SomeCountry2"
+                    }
+                }
+            };
+            _repo.Update(entityToUpdate);
+            Assert.Equal(3,_repo.Count());
+        }
         #endregion
-    }
-
-    public class Comparer : IEqualityComparer<Client>
-    {
-        public bool Equals(Client x, Client y)
-        {
-            if (ReferenceEquals(x, y)) return true;
-            if (ReferenceEquals(x, null)) return false;
-            if (ReferenceEquals(y, null)) return false;
-            if (x.GetType() != y.GetType()) return false;
-            return x.Id == y.Id && x.Name == y.Name && x.Address == y.Address && x.ApplyDate.Equals(y.ApplyDate) 
-                   && x.Country == y.Country && x.Notes == y.Notes && x.Priority == y.Priority;
-        }
-
-        public int GetHashCode(Client obj)
-        {
-            return HashCode.Combine(obj.Id, obj.Name, obj.Address, obj.ApplyDate, obj.Country, obj.Notes, obj.Priority);
-        }
     }
 }

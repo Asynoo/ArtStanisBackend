@@ -5,11 +5,7 @@ using ArtStanisProject.DataAccess.Repositories;
 using ArtStanisProject.Domain.IRepositories;
 using ArtStanisProject.Domain.Services;
 using ArtStanisProject.Security;
-using ArtStanisProject.Security.IRepositories;
-using ArtStanisProject.Security.IServices;
 using ArtStanisProject.Security.Repositories;
-using ArtStanisProject.Security.Services;
-using ArtStanisProject_Backend.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,12 +20,13 @@ namespace ArtStanisProject_Backend
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -45,7 +42,8 @@ namespace ArtStanisProject_Backend
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer'"
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' + " +
+                                  "JWT key generated after a successful login."
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -58,7 +56,7 @@ namespace ArtStanisProject_Backend
                                 Id = "Bearer"
                             }
                         },
-                        new string[] {}
+                        new string[] { }
                     }
                 });
             });
@@ -66,10 +64,10 @@ namespace ArtStanisProject_Backend
             #region Authentication
 
             services.AddAuthentication(authenticationOptions =>
-            {
-                authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+                {
+                    authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -89,11 +87,14 @@ namespace ArtStanisProject_Backend
             #endregion
 
             #region Dependency Injection
+
             //Clients
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IMainDbSeeder, MainDbSeeder>();
-            
+            //Countries
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICountryService, CountryService>();
             //Security
             services.AddScoped<IAuthUserRepository, AuthUserRepository>();
             services.AddScoped<IAuthUserService, AuthUserService>();
@@ -101,19 +102,13 @@ namespace ArtStanisProject_Backend
             services.AddScoped<IAuthDbSeeder, AuthDbSeeder>();
 
             #endregion
-            
+
             // ClientDB
-            services.AddDbContext<MainDbContext>(builder =>
-            {
-                builder.UseSqlite("Data source =main.db");
-            });
-            
+            services.AddDbContext<MainDbContext>(builder => { builder.UseSqlite("Data source =main.db"); });
+
             // AuthDB
-            services.AddDbContext<AuthDbContext>(builder =>
-            {
-                builder.UseSqlite("Data source =auth.db");
-            });
-            
+            services.AddDbContext<AuthDbContext>(builder => { builder.UseSqlite("Data source =auth.db"); });
+
             services.AddCors(opt => opt
                 .AddPolicy("dev-policy", policy =>
                 {
@@ -141,14 +136,12 @@ namespace ArtStanisProject_Backend
                 authDbSeeder.SeedDevelopment();
             }
 
-            app.UseMiddleware<JwtMiddleware>();
-
             app.UseAuthentication();
 
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

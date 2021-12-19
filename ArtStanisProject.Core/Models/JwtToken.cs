@@ -1,6 +1,5 @@
-﻿namespace ArtStanisProject.Security.Models
+﻿namespace ArtStanisProject.Core.Models
 {
-
     public class JwtToken
     {
         public string Jwt { get; set; }

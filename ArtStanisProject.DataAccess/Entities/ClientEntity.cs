@@ -6,10 +6,10 @@ namespace ArtStanisProject.DataAccess.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Address { get; set; }
+        public string Email { get; set; }
         public DateTime ApplyDate { get; set; }
-        public string Country { get; set; }
-        public string Notes  { get; set; }
+        public string Notes { get; set; }
         public int Priority { get; set; }
+        public AddressEntity Address { get; set; }
     }
 }

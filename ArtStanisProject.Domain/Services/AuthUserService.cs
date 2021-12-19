@@ -1,11 +1,9 @@
-﻿using ArtStanisProject.Security.IRepositories;
-using ArtStanisProject.Security.IServices;
-using ArtStanisProject.Security.Models;
-using ArtStanisProject.Security.Repositories;
+﻿using ArtStanisProject.Core.IServices;
+using ArtStanisProject.Core.Models;
+using ArtStanisProject.Domain.IRepositories;
 
-namespace ArtStanisProject.Security.Services
+namespace ArtStanisProject.Domain.Services
 {
-
     public class AuthUserService : IAuthUserService
     {
         private readonly IAuthUserRepository _repo;
