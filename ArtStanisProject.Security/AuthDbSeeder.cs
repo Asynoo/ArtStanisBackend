@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using ArtStanisProject.Core.IServices;
+using ArtStanisProject.Core.Models;
 using ArtStanisProject.Security.Entities;
 
 namespace ArtStanisProject.Security
@@ -20,13 +22,13 @@ namespace ArtStanisProject.Security
             _ctx.Database.EnsureDeleted();
             _ctx.Database.EnsureCreated();
 
-            var salt = "NAcl";
+            var salt = Salt.GenerateSalt();
             _ctx.LoginUsers.Add(
                 new LoginUserEntity
                 {
                     Salt = salt,
                     Username = "User",
-                    HashedPassword = _service.HashedPassword("12345", Encoding.ASCII.GetBytes(salt))
+                    HashedPassword = _service.HashedPassword("12345", salt)
                 });
             _ctx.SaveChanges();
         }

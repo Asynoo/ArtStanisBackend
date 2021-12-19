@@ -24,7 +24,7 @@ namespace ArtStanisProject.Security.Repositories
                 Id = entity.Id,
                 Username = entity.Username,
                 HashedPassword = entity.HashedPassword,
-                Salt = Encoding.ASCII.GetBytes(entity.Salt)
+                Salt = entity.Salt
             };
         }
     }

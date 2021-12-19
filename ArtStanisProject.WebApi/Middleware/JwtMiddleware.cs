@@ -56,7 +56,7 @@ namespace ArtStanisProject_Backend.Middleware
                 // attach account to context on successful jwt validation
                 context.Items["LoginUser"] = new AuthUser {Id = userId, Username = userName};
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // do nothing if jwt validation fails
                 // account is not attached to context so request won't have access to secure routes
