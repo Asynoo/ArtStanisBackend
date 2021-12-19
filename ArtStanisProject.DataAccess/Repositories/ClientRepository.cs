@@ -168,7 +168,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             };
         }
 
-        public Client Delete(int clientId)
+        public int Delete(int clientId)
         {
             var query = _ctx.Clients.ToList();
             var clientEntity = query.SingleOrDefault(ce => ce.Id == clientId);
@@ -176,29 +176,7 @@ namespace ArtStanisProject.DataAccess.Repositories
                 throw new ArgumentException("Client ID not found");
             var deletedEntity = _ctx.Clients.Remove(clientEntity).Entity;
             _ctx.SaveChanges();
-            return new Client
-            {
-                Id = deletedEntity.Id,
-                Name = deletedEntity.Name,
-                Email = deletedEntity.Email,
-                ApplyDate = deletedEntity.ApplyDate,
-                Notes = deletedEntity.Notes,
-                Priority = deletedEntity.Priority,
-                Address = new Address
-                {
-                    Id = clientEntity.Address.Id,
-                    Street = clientEntity.Address.Street,
-                    HouseNumber = clientEntity.Address.HouseNumber,
-                    PostalCode = clientEntity.Address.PostalCode,
-                    City = clientEntity.Address.City,
-                    Country = new Country
-                    {
-                        Id = clientEntity.Address.Country.Id,
-                        CountryName = clientEntity.Address.Country.CountryName,
-                        CountryCode = clientEntity.Address.Country.CountryCode
-                    }
-                }
-            };
+            return deletedEntity.Id;
         }
 
         public Client Update(Client client)

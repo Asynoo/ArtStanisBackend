@@ -290,7 +290,7 @@ namespace ArtStanisProject.DataAccess.Test.Repositories
                     }
                 }
             };
-            Assert.Equal(entityToDelete,_repo.Delete(entityToDelete.Id),new ClientComparer());
+            Assert.Equal(entityToDelete.Id,_repo.Delete(entityToDelete.Id));
         }
 
         [Fact]

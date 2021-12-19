@@ -171,34 +171,12 @@ namespace ArtStanisProject_Backend.Controllers
 
         [Authorize]
         [HttpDelete("{id:int}")]
-        public ActionResult<ClientDto> Delete(int id)
+        public ActionResult<int> Delete(int id)
         {
             try
             {
-                var client = _service.DeleteClient(id);
-                return StatusCode(200, new ClientDto
-                {
-                    Id = client.Id,
-                    Name = client.Name,
-                    Email = client.Email,
-                    ApplyDate = client.ApplyDate,
-                    Priority = client.Priority,
-                    Notes = client.Notes,
-                    Address = new ClientAddressDto
-                    {
-                        Id = client.Address.Id,
-                        Street = client.Address.Street,
-                        HouseNumber = client.Address.HouseNumber,
-                        PostalCode = client.Address.PostalCode,
-                        City = client.Address.City,
-                        Country = new CountryDto
-                        {
-                            Id = client.Address.Country.Id,
-                            CountryName = client.Address.Country.CountryName,
-                            CountryCode = client.Address.Country.CountryCode
-                        }
-                    }
-                });
+                var clientId = _service.DeleteClient(id);
+                return StatusCode(200, clientId);
             }
             catch (ArgumentException e)
             {
