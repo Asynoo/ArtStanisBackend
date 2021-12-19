@@ -78,7 +78,7 @@ namespace ArtStanisProject_Backend
                                 Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"])),
                         ValidateIssuer = false,
                         ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidAudience = Configuration["Jwt:Audience"],
                         ValidateLifetime = true
                     };
