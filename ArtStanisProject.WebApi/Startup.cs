@@ -63,7 +63,7 @@ namespace ArtStanisProject_Backend
 
             #region Authentication
 
-            services.AddAuthentication(authenticationOptions =>
+            /*services.AddAuthentication(authenticationOptions =>
                 {
                     authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -82,7 +82,7 @@ namespace ArtStanisProject_Backend
                         ValidAudience = Configuration["Jwt:Audience"],
                         ValidateLifetime = true
                     };
-                });
+                });*/
 
             #endregion
 
