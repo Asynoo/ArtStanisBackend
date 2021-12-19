@@ -6,7 +6,6 @@ using ArtStanisProject.Domain.IRepositories;
 using ArtStanisProject.Domain.Services;
 using ArtStanisProject.Security;
 using ArtStanisProject.Security.Repositories;
-using ArtStanisProject_Backend.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +42,8 @@ namespace ArtStanisProject_Backend
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer'"
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' + " +
+                                  "JWT key generated after a successful login."
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -135,8 +135,6 @@ namespace ArtStanisProject_Backend
                 mainDbSeeder.SeedDevelopment();
                 authDbSeeder.SeedDevelopment();
             }
-
-            app.UseMiddleware<JwtMiddleware>();
 
             app.UseAuthentication();
 
