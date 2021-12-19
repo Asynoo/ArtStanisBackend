@@ -104,10 +104,39 @@ namespace ArtStanisProject_Backend
             #endregion
 
             // ClientDB
-            services.AddDbContext<MainDbContext>(builder => { builder.UseSqlite("Data source =main.db"); });
+            services.AddDbContext<MainDbContext>(
+                options =>
+                {
+                    options.UseSqlite("Data Source=main.db");
+                });
+            
+            //Setup Security Context 
+            services.AddDbContext<AuthDbContext>(
+                options =>
+                {
+                    options.UseSqlite("Data Source=auth.db");
+                });
 
-            // AuthDB
-            services.AddDbContext<AuthDbContext>(builder => { builder.UseSqlite("Data source =auth.db"); });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Dev-cors", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+                options.AddPolicy("Prod-cors", policy =>
+                {
+                    policy
+                        .WithOrigins(
+                            "https://art-stanis.firebaseapp.com",
+                            "https://art-stanis.web.app")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                } );
+            });
+        
 
             services.AddCors(opt => opt
                 .AddPolicy("dev-policy", policy =>
@@ -120,9 +149,11 @@ namespace ArtStanisProject_Backend
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
+            IApplicationBuilder app, 
+            IWebHostEnvironment env, 
             IMainDbSeeder mainDbSeeder,
             IAuthDbSeeder authDbSeeder)
         {
@@ -131,19 +162,20 @@ namespace ArtStanisProject_Backend
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArtStanisProject.WebApi v1"));
-                app.UseCors("dev-policy");
+                app.UseCors("Dev-cors");
                 mainDbSeeder.SeedDevelopment();
                 authDbSeeder.SeedDevelopment();
             }
             else
             {
-                app.UseCors("dev-policy");
+                app.UseCors("Prod-cors");
                 mainDbSeeder.SeedProduction();
-                authDbSeeder.SeedProduction();
             }
 
-            app.UseAuthentication();
+            app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+            
             app.UseRouting();
 
             app.UseAuthorization();
