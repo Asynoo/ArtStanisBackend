@@ -76,9 +76,9 @@ namespace ArtStanisProject_Backend
                         IssuerSigningKey =
                             new SymmetricSecurityKey(
                                 Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"])),
-                        ValidateIssuer = true,
+                        ValidateIssuer = false,
                         ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidAudience = Configuration["Jwt:Audience"],
                         ValidateLifetime = true
                     };
