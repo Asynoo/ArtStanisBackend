@@ -53,7 +53,7 @@ namespace ArtStanisProject_Backend.Controllers
                             }
                         }
                     })
-                    .ToList();
+                    .ToList().OrderBy(x => x.Priority);
                 return Ok(list);
             }
             catch (Exception e)
