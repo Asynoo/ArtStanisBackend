@@ -139,7 +139,6 @@ namespace ArtStanisProject_Backend
             {
                 app.UseCors("dev-policy");
                 mainDbSeeder.SeedProduction();
-                authDbSeeder.SeedProduction();
             }
 
             app.UseAuthentication();
