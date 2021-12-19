@@ -135,6 +135,11 @@ namespace ArtStanisProject_Backend
                 mainDbSeeder.SeedDevelopment();
                 authDbSeeder.SeedDevelopment();
             }
+            else
+            {
+                mainDbSeeder.SeedProduction();
+                authDbSeeder.SeedProduction();
+            }
 
             app.UseAuthentication();
 
