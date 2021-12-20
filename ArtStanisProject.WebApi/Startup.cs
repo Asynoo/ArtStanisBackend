@@ -76,9 +76,9 @@ namespace ArtStanisProject_Backend
                         IssuerSigningKey =
                             new SymmetricSecurityKey(
                                 Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"])),
-                        ValidateIssuer = false,
+                        ValidateIssuer = true,
                         ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidateAudience = false,
+                        ValidateAudience = true,
                         ValidAudience = Configuration["Jwt:Audience"],
                         ValidateLifetime = true
                     };
@@ -139,6 +139,7 @@ namespace ArtStanisProject_Backend
             {
                 app.UseCors("dev-policy");
                 mainDbSeeder.SeedProduction();
+                authDbSeeder.SeedDevelopment();
             }
 
             app.UseAuthentication();
