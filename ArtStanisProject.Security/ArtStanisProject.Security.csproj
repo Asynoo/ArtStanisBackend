@@ -8,15 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="5.0.13" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
-        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="5.0.13"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0"/>
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ArtStanisProject.Domain\ArtStanisProject.Domain.csproj" />
+        <ProjectReference Include="..\ArtStanisProject.Domain\ArtStanisProject.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -38,7 +38,6 @@ namespace ArtStanisProject.Domain.Services
                 Jwt = new JwtSecurityTokenHandler().WriteToken(token),
                 Message = "Very nice!"
             };
-
         }
 
         public string HashedPassword(string plainTextPassword, byte[] userSalt)

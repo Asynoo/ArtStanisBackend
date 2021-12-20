@@ -172,7 +172,7 @@ namespace ArtStanisProject.DataAccess.Repositories
         {
             var query = _ctx.Clients.ToList();
             var clientEntity = query.SingleOrDefault(ce => ce.Id == clientId);
-            if (clientEntity == null) 
+            if (clientEntity == null)
                 throw new ArgumentException("Client ID not found");
             var deletedEntity = _ctx.Clients.Remove(clientEntity).Entity;
             _ctx.SaveChanges();

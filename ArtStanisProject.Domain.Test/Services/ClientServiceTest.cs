@@ -63,7 +63,7 @@ namespace ArtStanisProject.Domain.Test.Services
             var actual = _service.GetAllClients(filter);
             Assert.Equal(_expected, actual);
         }
-        
+
         [Fact]
         public void GetClients_WithFilterCountOverHundred_ThrowsArgumentExceptionWithMessage()
         {
@@ -75,9 +75,9 @@ namespace ArtStanisProject.Domain.Test.Services
                 SortBy = null
             };
             var ex = Assert.Throws<ArgumentException>(() => _service.GetAllClients(filter));
-            Assert.Equal("Filter count must be between 1 and 100",ex.Message);
+            Assert.Equal("Filter count must be between 1 and 100", ex.Message);
         }
-        
+
         [Fact]
         public void GetClients_WithFilterPageUnderZero_ThrowsArgumentException()
         {
@@ -120,7 +120,7 @@ namespace ArtStanisProject.Domain.Test.Services
             _service.UpdateClient(client);
             _mock.Verify(repository => repository.Update(client), Times.Once);
         }
-        
+
         [Fact]
         public void GetClientCount_CallsCountExactlyOnce()
         {

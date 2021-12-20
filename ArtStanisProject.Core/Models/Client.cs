@@ -13,6 +13,7 @@ namespace ArtStanisProject.Core.Models
         public string Notes { get; set; }
         public int Priority { get; set; }
     }
+
     public class ClientComparer : IEqualityComparer<Client>
     {
         public bool Equals(Client x, Client y)

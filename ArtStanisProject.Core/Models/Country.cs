@@ -9,7 +9,7 @@ namespace ArtStanisProject.Core.Models
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
     }
-    
+
     public class CountryComparer : IEqualityComparer<Country>
     {
         public bool Equals(Country x, Country y)
