@@ -101,7 +101,7 @@ namespace ArtStanisProject.DataAccess.Repositories
             });
             var foundClient = query.SingleOrDefault(client => client.Id == clientId);
             if (foundClient == null)
-                throw new ArgumentException("Client ID not found");
+                throw new ArgumentException("Client not found");
             return foundClient;
         }
 

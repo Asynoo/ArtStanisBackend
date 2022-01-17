@@ -61,7 +61,7 @@ namespace ArtStanisProject_Backend.Controllers
                 return BadRequest("Clients not found");
             }
         }
-
+        
         [Authorize]
         [HttpGet("{id:int}")]
         public ActionResult<List<Client>> Get(int id)
